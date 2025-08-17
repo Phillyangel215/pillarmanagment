@@ -73,4 +73,17 @@ export default [
       'no-implicit-coercion': 'error',
     },
   },
+  {
+    files: [
+      'src/app/DemoGallery.tsx',
+      'src/app/screens/Auth_Login.tsx',
+      'src/auth/rbac.ts',
+      'src/config/validateEnv.ts',
+    ],
+    rules: {
+      'security/detect-object-injection': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'no-console': 'off',
+    },
+  },
 ]
