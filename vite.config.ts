@@ -25,5 +25,17 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true,
+    proxy: {
+      '/api/accounts': {
+        target: 'http://localhost:54321/functions/v1',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api\/accounts/, '/provision_user'),
+      },
+      '/api': {
+        target: 'http://localhost:54321/functions/v1',
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/api/, ''),
+      },
+    },
   },
 })

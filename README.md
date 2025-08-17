@@ -126,3 +126,34 @@ src/
 ---
 
 Built with ❤️ for nonprofit organizations serving vulnerable populations.
+
+## Demo Mode
+
+- **VITE_DEMO=1**: Runs the app without any external dependencies. No Supabase project required.
+
+## Production Path (Supabase Edge Functions)
+
+- **Requirements**:
+  - Supabase project (URL and Service Role key)
+  - Configure environment variables in `.env` (see `.env.example`):
+    - `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (client)
+    - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE` (Edge Functions)
+    - Optional: JWT roles claim path if customized (functions default to `roles` or `role` in JWT)
+
+- **Local development**:
+  - Start Edge Functions:
+    - `supabase functions serve`
+  - Start Vite dev server:
+    - `npm run dev`
+
+- **Unified API (via Vite proxy)**:
+  - `/api/status`
+  - `/api/notifications`
+  - `/api/notifications?unread=1`
+  - `/api/notifications/unread-count`
+  - `/api/notifications/mark-read/:id`
+  - `/api/accounts` (provision user)
+
+- **Security**:
+  - Provisioning requires a JWT whose roles array includes `SUPER_ADMIN`.
+  - Do not import React or `@/*` client modules into `supabase/functions/**`.

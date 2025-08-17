@@ -37,6 +37,15 @@ jobs:
       - name: Run tests
         run: npm run test
 
+      - name: Verify no client imports in Supabase functions
+        run: |
+          if [ -d supabase/functions ]; then
+            if grep -R --include \*.ts --include \*.tsx -nE "from\s+'react'|from\s+\"react\"|from\s+'@/|from\s+\"@/" supabase/functions; then
+              echo "Client imports are not allowed in supabase/functions/**."
+              exit 1
+            fi
+          fi
+
       - name: Build application
         run: npm run build
 
