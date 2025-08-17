@@ -34,6 +34,20 @@ jobs:
       - name: Run TypeScript type checking
         run: npm run typecheck
 
+      - name: Guard serverless functions against web imports
+        run: |
+          set -e
+          if [ -d "supabase/functions" ]; then
+            if grep -R -n "from ['\"]@/" supabase/functions || grep -R -n "from ['\"]react['\"]" supabase/functions; then
+              echo "Prohibited imports found in supabase/functions" >&2
+              exit 1
+            else
+              echo "No prohibited imports in supabase/functions"
+            fi
+          else
+            echo "supabase/functions not present; skipping guard"
+          fi
+
       - name: Run tests
         run: npm run test
 
