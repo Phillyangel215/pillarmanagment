@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PresenterBar from '@/components/demo/PresenterBar';
+import DemoDashboardRow from '@/components/demo/DemoDashboardRow';
 
 // Import available screens if they exist; otherwise leave null placeholders.
 const pages: Record<string, React.ComponentType | null> = {
@@ -25,9 +27,15 @@ export default function DemoGallery() {
   const Page = pages[key];
   return (
     <div className="min-h-screen bg-[var(--color-surface,#0E0F13)] text-[var(--color-text,#F5F7FA)] p-6">
+      {import.meta.env.VITE_DEMO === '1' && (
+        <div className="mb-4 space-y-4">
+          <PresenterBar />
+          <DemoDashboardRow />
+        </div>
+      )}
       <div className="flex gap-2 flex-wrap mb-4">
         {Object.keys(pages).map(k => (
-          <button key={k} onClick={() => setKey(k as any)} className="px-3 py-2 rounded-md border border-white/10 hover:bg-white/5">
+          <button key={k} onClick={() => setKey(k as keyof typeof pages)} className="px-3 py-2 rounded-md border border-white/10 hover:bg-white/5">
             {k}
           </button>
         ))}
