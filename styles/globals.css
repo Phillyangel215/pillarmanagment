@@ -1,0 +1,393 @@
+@import 'tailwindcss';
+
+/* ===================================================================
+   ENTERPRISE DESIGN SYSTEM - OVERRIDE ALL SHADCN/COMPONENT DEFAULTS
+   Following Guidelines.md specifications exactly
+   =================================================================== */
+
+:root {
+  /* Typography - Base Font Size: 16px minimum (accessibility requirement) from Guidelines */
+  --font-family-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px - accessibility minimum from Guidelines */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  
+  /* Color Usage Standards from Guidelines */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;  /* Primary Actions: Blue for main actions */
+  --color-primary-700: #1d4ed8;
+  --color-slate-50: #f8fafc;   /* Background */
+  --color-slate-100: #f1f5f9;  /* Light background */
+  --color-slate-200: #e2e8f0;  /* Subtle borders */
+  --color-slate-300: #cbd5e1;  /* Borders */
+  --color-slate-400: #94a3b8;  /* Muted text */
+  --color-slate-500: #64748b;  /* Secondary text */
+  --color-slate-600: #475569;  /* Secondary Actions: Gray for supporting actions */
+  --color-slate-700: #334155;  /* Primary text */
+  --color-slate-800: #1e293b;  /* Strong text */
+  --color-slate-900: #0f172a;  /* Headers */
+  
+  --color-success-50: #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-600: #059669; /* Success States: Green for confirmations */
+  --color-error-50: #fef2f2;
+  --color-error-100: #fee2e2;
+  --color-error-600: #dc2626;   /* Error States: Red for errors/warnings */
+  
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-accent-600: #d97706;  /* HIPAA Indicators: Amber for sensitive data */
+  
+  /* Spacing System from Guidelines - 4px base unit */
+  --spacing-1: 0.25rem;  /* 4px - Base unit */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px - Component padding minimum */
+  --spacing-5: 1.25rem;  /* 20px */
+  --spacing-6: 1.5rem;   /* 24px - Section gaps for visual separation */
+  --spacing-8: 2rem;     /* 32px - Page margins for outer containers */
+  --spacing-10: 2.5rem;  /* 40px */
+  --spacing-12: 3rem;    /* 48px */
+  
+  /* Component Design Tokens */
+  --radius-base: 0.25rem;
+  --radius-lg: 0.5rem;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  --transition-fast: 150ms ease-in-out;
+}
+
+/* CSS Reset - Override all defaults */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  color: var(--color-slate-700);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-slate-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===================================================================
+   TYPOGRAPHY - FORCE ENTERPRISE STANDARDS FROM GUIDELINES
+   Override ALL component defaults with !important
+   =================================================================== */
+
+/* Headings: Use semantic HTML (h1, h2, h3) with design-system classes */
+h1, .h1, .heading-1, [class*="text-4xl"], [class*="text-3xl"], [class*="text-2xl"] {
+  font-size: var(--font-size-4xl) !important;
+  font-weight: 700 !important;
+  color: var(--color-slate-900) !important;
+  margin-bottom: var(--spacing-6) !important;
+  line-height: 1.2 !important;
+}
+
+h2, .h2, .heading-2, [class*="text-xl"] {
+  font-size: var(--font-size-3xl) !important;
+  font-weight: 600 !important;
+  color: var(--color-slate-900) !important;
+  margin-bottom: var(--spacing-5) !important;
+  line-height: 1.3 !important;
+}
+
+h3, .h3, .heading-3, [class*="text-lg"] {
+  font-size: var(--font-size-2xl) !important;
+  font-weight: 600 !important;
+  color: var(--color-slate-800) !important;
+  margin-bottom: var(--spacing-4) !important;
+  line-height: 1.4 !important;
+}
+
+h4, .h4, .heading-4{
+  font-size: var(--font-size-xl) !important;
+  font-weight: 600 !important;
+  color: var(--color-slate-800) !important;
+  margin-bottom: var(--spacing-3) !important;
+  line-height: 1.4 !important;
+}
+
+/* Body Text: Use .body-base class for consistent line height from Guidelines */
+p, .text-base, .body-base, [class*="text-sm"], [class*="text-base"] {
+  font-size: var(--font-size-base) !important;
+  color: var(--color-slate-600) !important;
+  margin-bottom: var(--spacing-4) !important;
+  line-height: 1.6 !important;
+}
+
+/* ===================================================================
+   COMPONENT DESIGN SYSTEM CLASSES - FROM GUIDELINES
+   Override all ShadCN/UI component defaults
+   =================================================================== */
+
+.btn-base {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: var(--spacing-2) !important;
+  font-size: var(--font-size-base) !important;
+  font-weight: 500 !important;
+  padding: var(--spacing-3) var(--spacing-6) !important;
+  border-radius: var(--radius-lg) !important;
+  min-height: 2.75rem !important; /* Interactive Text: Minimum 44px touch target */
+  transition: all var(--transition-fast) !important;
+  cursor: pointer !important;
+  border: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+.btn-primary {
+  background-color: var(--color-primary-600) !important;
+  color: white !important;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-700) !important;
+}
+.btn-primary:focus {
+  outline: 2px solid var(--color-primary-500) !important;
+  outline-offset: 2px !important;
+}
+
+.btn-secondary {
+  background-color: var(--color-slate-100) !important;
+  color: var(--color-slate-700) !important;
+  border: 1px solid var(--color-slate-300) !important;
+}
+.btn-secondary:hover {
+  background-color: var(--color-slate-200) !important;
+}
+
+.input-base {
+  font-size: var(--font-size-base) !important;
+  padding: var(--spacing-3) var(--spacing-4) !important;
+  border-radius: var(--radius-lg) !important;
+  min-height: 2.75rem !important; /* 44px touch target */
+  border: 1px solid var(--color-slate-300) !important;
+  background: white !important;
+  transition: all var(--transition-fast) !important;
+  width: 100% !important;
+}
+.input-base:focus {
+  outline: none !important;
+  border-color: var(--color-primary-500) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.card-base {
+  background: white !important;
+  border-radius: var(--radius-lg) !important;
+  padding: var(--spacing-6) !important;
+  box-shadow: var(--shadow-base) !important;
+  border: 1px solid var(--color-slate-200) !important;
+}
+
+/* ===================================================================
+   FORCE OVERRIDES ON ALL SHADCN/UI COMPONENTS
+   These override baked-in styling defaults
+   =================================================================== */
+
+/* Button Component Overrides - Force exact Guidelines styling */
+button, [role="button"], .button, [class*="btn"], [class*="Button"] {
+  font-size: var(--font-size-base) !important;
+  font-weight: 500 !important;
+  padding: var(--spacing-3) var(--spacing-6) !important;
+  border-radius: var(--radius-lg) !important;
+  min-height: 2.75rem !important;
+  gap: var(--spacing-2) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+/* Card Component Overrides - Force Guidelines spacing */
+[class*="card"], .card, [data-card] {
+  background: white !important;
+  border-radius: var(--radius-lg) !important;
+  padding: var(--spacing-6) !important; /* Component padding minimum */
+  box-shadow: var(--shadow-base) !important;
+  border: 1px solid var(--color-slate-200) !important;
+}
+
+/* Input Component Overrides - Force 44px touch targets */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select,
+[class*="input"],
+.input,
+[data-input] {
+  font-size: var(--font-size-base) !important;
+  padding: var(--spacing-3) var(--spacing-4) !important;
+  border-radius: var(--radius-lg) !important;
+  min-height: 2.75rem !important;
+  border: 1px solid var(--color-slate-300) !important;
+  background: white !important;
+}
+
+/* ===================================================================
+   HIPAA COMPLIANCE INDICATORS - FROM GUIDELINES
+   =================================================================== */
+
+[data-hipaa="true"], .hipaa-sensitive {
+  border-left: 4px solid var(--color-accent-600) !important;
+  background-color: var(--color-warning-50) !important;
+}
+
+.hipaa-warning {
+  background-color: var(--color-warning-50) !important;
+  border: 1px solid var(--color-accent-600) !important;
+  color: var(--color-accent-600) !important;
+  padding: var(--spacing-3) !important;
+  border-radius: var(--radius-base) !important;
+}
+
+/* ===================================================================
+   ACCESSIBILITY ENHANCEMENTS - WCAG AA FROM GUIDELINES
+   =================================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary-500) !important;
+  outline-offset: 2px !important;
+}
+
+/* Interactive Elements - Minimum 44px touch target size */
+button, [role="button"], a, input, select, textarea {
+  min-height: 2.75rem !important; /* 44px minimum */
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-slate-600: #000000;
+    --color-slate-900: #000000;
+    --color-primary-600: #0000ff;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===================================================================
+   UTILITY CLASSES - ENTERPRISE PATTERNS
+   =================================================================== */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.text-success { color: var(--color-success-600) !important; }
+.text-error { color: var(--color-error-600) !important; }
+.text-warning { color: var(--color-accent-600) !important; }
+
+.bg-success { background-color: var(--color-success-50) !important; }
+.bg-error { background-color: var(--color-error-50) !important; }
+.bg-warning { background-color: var(--color-warning-50) !important; }
+
+/* Enterprise layout patterns following Guidelines */
+.enterprise-spacing {
+  gap: var(--spacing-4) !important;
+  padding: var(--spacing-6) !important; /* Section gaps */
+  margin-bottom: var(--spacing-6) !important;
+}
+
+.enterprise-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--spacing-6) !important; /* Section gaps for visual separation */
+}
+
+.enterprise-grid {
+  display: grid !important;
+  gap: var(--spacing-4) !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+}
+
+/* Page margins: 32px for outer containers */
+.enterprise-page {
+  padding: var(--spacing-8) !important;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN - FROM GUIDELINES
+   =================================================================== */
+
+/* Mobile First: Design for 375px minimum width */
+@media (max-width: 768px) {
+  :root {
+    --spacing-6: 1rem;
+    --spacing-8: 1.5rem;
+  }
+  
+  h1, .h1 {
+    font-size: var(--font-size-3xl) !important;
+  }
+  
+  h2, .h2 {
+    font-size: var(--font-size-2xl) !important;
+  }
+  
+  .card-base, [class*="card"] {
+    padding: var(--spacing-4) !important;
+    margin: var(--spacing-2) !important;
+  }
+  
+  .btn-base {
+    padding: var(--spacing-3) var(--spacing-4) !important;
+    min-height: 3rem !important; /* Larger touch target on mobile */
+  }
+}
+
+/* Tablet: 768px - Single column to two-column layouts */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .enterprise-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Desktop: 1024px - Full feature layout with sidebar */
+@media (min-width: 1024px) {
+  .enterprise-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Large Desktop: 1280px - Maximum content width */
+@media (min-width: 1280px) {
+  .max-content-width {
+    max-width: 1280px !important;
+    margin: 0 auto !important;
+  }
+}
