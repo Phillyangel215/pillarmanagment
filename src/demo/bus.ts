@@ -1,4 +1,4 @@
-type Event = { type: string; payload?: any }
+type Event = { type: string; payload?: unknown }
 const subs = new Set<(e: Event) => void>()
 export const bus = {
   emit(e: Event) {
