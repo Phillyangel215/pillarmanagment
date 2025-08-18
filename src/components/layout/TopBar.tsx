@@ -6,6 +6,9 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react'
+import NotificationBell from '@/components/common/NotificationBell'
+import RoleSwitcher from '@/components/common/RoleSwitcher'
+import CreateUserButton from '@/components/common/CreateUserButton'
 
 export interface User {
   id: string
@@ -174,88 +177,12 @@ export function TopBar({
 
       {/* Right section - Notifications and User Menu */}
       <div className="flex items-center gap-2">
+        {/* Dev Tools */}
+        <CreateUserButton />
+        <RoleSwitcher />
+        
         {/* Notifications */}
-        <div className="relative" ref={notificationsRef}>
-          <button
-            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-            onKeyDown={(e) => handleKeyDown(e, 'notifications')}
-            className={[
-              'relative p-2 rounded-lg text-muted hover:text-text hover:bg-surface-2',
-              'transition-colors duration-200',
-              'focus:outline-none focus:ring-2 focus:ring-primary-500/50'
-            ].join(' ')}
-            aria-label={`Notifications ${unreadCount > 0 ? `(${unreadCount} unread)` : ''}`}
-            aria-expanded={isNotificationsOpen}
-            aria-haspopup="true"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-4.5-4.5c-.4-.4-1-.4-1.4 0L10.5 17H15zm-9-4c0-3.5 2.5-6.5 6-7v-1a1 1 0 112 0v1c3.5.5 6 3.5 6 7v4.5l2 2v.5H4v-.5l2-2V13z" />
-            </svg>
-            
-            {/* Unread count badge */}
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 h-5 w-5 bg-error rounded-full flex items-center justify-center">
-                <span className="text-white text-xs font-medium">
-                  {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
-              </span>
-            )}
-          </button>
-
-          {/* Notifications dropdown */}
-          {isNotificationsOpen && (
-            <div className="absolute right-0 mt-2 w-80 bg-surface-2 border border-surface-4 rounded-lg shadow-lg z-50">
-              <div className="p-4 border-b border-surface-4">
-                <h3 className="text-lg font-semibold text-text">Notifications</h3>
-              </div>
-              
-              <div className="max-h-96 overflow-y-auto">
-                {notifications.length > 0 ? (
-                  notifications.map((notification) => (
-                    <button
-                      key={notification.id}
-                      onClick={() => {
-                        onNotificationClick?.(notification)
-                        setIsNotificationsOpen(false)
-                      }}
-                      className={[
-                        'w-full p-4 text-left border-b border-surface-4 last:border-b-0',
-                        'hover:bg-surface-3 transition-colors duration-200',
-                        'focus:outline-none focus:bg-surface-3',
-                        !notification.isRead ? 'bg-primary-500/5' : ''
-                      ].join(' ')}
-                    >
-                      <div className="flex items-start gap-3">
-                        {getNotificationIcon(notification.type)}
-                        <div className="flex-1 min-w-0">
-                          <p className={`text-sm font-medium ${!notification.isRead ? 'text-text' : 'text-muted'}`}>
-                            {notification.title}
-                          </p>
-                          <p className="text-sm text-muted mt-1 line-clamp-2">
-                            {notification.message}
-                          </p>
-                          <p className="text-xs text-muted mt-2">
-                            {formatTimestamp(notification.timestamp)}
-                          </p>
-                        </div>
-                        {!notification.isRead && (
-                          <div className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0 mt-1" />
-                        )}
-                      </div>
-                    </button>
-                  ))
-                ) : (
-                  <div className="p-8 text-center">
-                    <svg className="w-12 h-12 text-muted mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-4.5-4.5c-.4-.4-1-.4-1.4 0L10.5 17H15zm-9-4c0-3.5 2.5-6.5 6-7v-1a1 1 0 112 0v1c3.5.5 6 3.5 6 7v4.5l2 2v.5H4v-.5l2-2V13z" />
-                    </svg>
-                    <p className="text-muted">No notifications</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+        <NotificationBell />
 
         {/* User menu */}
         <div className="relative" ref={userMenuRef}>
