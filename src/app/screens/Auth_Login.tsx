@@ -10,6 +10,8 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
+import { login } from '@/app/actions/auth'
+import Logo from '@/components/common/Logo'
 
 export function Auth_Login() {
 	const [formData, setFormData] = useState({
@@ -51,16 +53,9 @@ export function Auth_Login() {
 		setIsLoading(true)
 		
 		try {
-			// Simulate API call
-			await new Promise(resolve => setTimeout(resolve, 1500))
-			
-			// Handle successful login
-			console.info('Login successful:', formData.email)
-			
-		} catch {
-			setErrors({
-				general: 'Invalid email or password. Please try again.'
-			})
+			await login(formData.email, formData.password)
+		} catch (err) {
+			setErrors({ general: (err as Error).message || 'Invalid email or password. Please try again.' })
 		} finally {
 			setIsLoading(false)
 		}
@@ -83,30 +78,30 @@ export function Auth_Login() {
 	return (
 		<div className="min-h-screen bg-surface flex items-center justify-center p-6">
 			<div className="w-full max-w-md space-y-8">
-				{/* Header with logo */}
-				<div className="text-center">
-					<div className="flex justify-center mb-6">
-						<div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg">
-							<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-								<g transform="translate(8, 6)">
-									<rect x="2" y="0" width="4" height="28" fill="white" rx="1"/>
-									<rect x="6" y="2" width="12" height="3" fill="white" rx="1.5"/>
-									<rect x="6" y="11" width="10" height="3" fill="white" rx="1.5"/>
-									<rect x="16" y="2" width="3" height="12" fill="white" rx="1"/>
-									<rect x="0" y="25" width="8" height="3" fill="white" rx="1.5"/>
-									<circle cx="10" cy="22" r="1" fill="white" opacity="0.8"/>
-									<circle cx="13" cy="24" r="1" fill="white" opacity="0.8"/>
-									<circle cx="16" cy="22" r="1" fill="white" opacity="0.8"/>
-								</g>
-							</svg>
-						</div>
-					</div>
-					
-					<h1 className="text-3xl font-bold text-text">Welcome to PILLAR</h1>
-					<p className="text-muted mt-2">
-						Sign in to your nonprofit management account
-					</p>
-				</div>
+				        {/* Header with animated logo */}
+        <div className="text-center">
+          <div className="flex justify-center mb-8">
+            <Logo 
+              size="hero" 
+              variant="default" 
+              animated={true} 
+              showText={false}
+              className="drop-shadow-2xl"
+            />
+          </div>
+          
+          <div className="space-y-2 animate-fade-in-delay-6">
+            <h1 className="text-4xl font-bold text-text tracking-tight">
+              Welcome to <span className="text-primary-500">PILLAR</span>
+            </h1>
+            <p className="text-lg text-muted">
+              Changing the game, one good deed at a time
+            </p>
+            <p className="text-sm text-muted opacity-80">
+              Sign in to your nonprofit management account
+            </p>
+          </div>
+        </div>
 
 				{/* Login form */}
 				<Card>

@@ -1,0 +1,16 @@
+[33m39baab9[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/cursor/check-pr-resolution-and-provide-solution-b3e6[m[33m)[m Merge pull request #20 from Phillyangel215/cursor/establish-connection-390c
+[33m07acdf2[m Merge pull request #19 from Phillyangel215/cursor/implement-tamper-evident-audit-log-9f42
+[33md1967c2[m[33m ([m[1;31morigin/cursor/establish-connection-390c[m[33m)[m Configure Supabase authentication and update environment configuration
+[33mbae5a6a[m[33m ([m[1;31morigin/cursor/implement-tamper-evident-audit-log-9f42[m[33m)[m Refactor audit log viewer and improve type safety in related files
+[33mf1d7e91[m Add audit log viewer with hash chain validation
+[33mbfce863[m Merge pull request #16 from Phillyangel215/cursor/update-project-with-rick-style-readme-and-milestones-d2d8
+[33m05325d5[m[33m ([m[1;31morigin/cursor/update-project-with-rick-style-readme-and-milestones-d2d8[m[33m)[m Revamp README and add comprehensive MILESTONES.md for project roadmap
+[33m3ed9402[m Merge pull request #15 from Phillyangel215/cursor/comprehensive-code-review-and-deployment-588c
+[33m96ca41e[m[33m ([m[1;31morigin/cursor/comprehensive-code-review-and-deployment-588c[m[33m)[m Add deployment, security docs and improve demo mode typing
+[33m4d0d1ab[m Merge pull request #13 from Phillyangel215/cursor/update-project-github-with-issue-status-cb40
+[33mde02bbe[m[33m ([m[1;31morigin/cursor/update-project-github-with-issue-status-cb40[m[33m)[m docs: add STATUS.md and README status; ci: add labels workflow; github: add issue templates
+[33m0e46c77[m Merge pull request #5 from Phillyangel215/cursor/implement-comprehensive-demo-mode-features-3d41
+[33m33bf1e1[m[33m ([m[1;31morigin/cursor/implement-comprehensive-demo-mode-features-3d41[m[33m)[m Refactor demo state management with scenarios, bus, and improved fetch shim
+[33m1c4aaa2[m chore(github): add issue and PR templates; seed labels
+[33m2fee998[m Merge pull request #2 from Phillyangel215/cursor/create-demo-build-with-local-data-and-rbac-44eb
+[33ma7e8316[m[33m ([m[1;31morigin/cursor/create-demo-build-with-local-data-and-rbac-44eb[m[33m)[m Add demo mode with mock data, role switching, and demo controls

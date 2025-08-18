@@ -9,7 +9,7 @@ import React from 'react'
 
 export interface ButtonProps {
   children: React.ReactNode
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline' | 'default'
   size?: 'sm' | 'md' | 'lg'
   loading?: boolean
   disabled?: boolean
@@ -97,6 +97,21 @@ export function Button({
       'hover:shadow-lg hover:-translate-y-0.5',
       'active:shadow-md active:translate-y-0',
       'focus:ring-error/60' // Error focus ring
+    ],
+    outline: [
+      'bg-transparent text-text border border-surface-4',
+      'hover:bg-surface-2 hover:border-primary-500',
+      'hover:-translate-y-0.5',
+      'active:translate-y-0',
+      'focus:ring-primary-500/60'
+    ],
+    default: [
+      'bg-gradient-to-r from-primary-500 to-primary-600',
+      'text-white shadow-md',
+      'hover:from-primary-600 hover:to-primary-700',
+      'hover:shadow-lg hover:-translate-y-0.5',
+      'active:shadow-md active:translate-y-0',
+      'focus:ring-primary-500/60'
     ]
   }
 

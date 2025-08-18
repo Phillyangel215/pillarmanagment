@@ -227,3 +227,92 @@
     --focus-ring: 0 0 0 3px #ffff00;
   }
 }
+
+/* ===================================================================
+   LOGO ANIMATIONS - PROFESSIONAL PILLAR BRANDING
+   =================================================================== */
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-left {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(-2px) translateY(-1px); }
+}
+
+@keyframes float-right {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(2px) translateY(-1px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 8px rgba(59, 130, 246, 0.3)); }
+  50% { filter: brightness(1.1) drop-shadow(0 0 16px rgba(59, 130, 246, 0.5)); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animate-float-left {
+  animation: float-left 3s ease-in-out infinite;
+}
+
+.animate-float-right {
+  animation: float-right 3s ease-in-out infinite 0.5s;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite 1s;
+}
+
+/* Animation delays for staggered effects */
+.animate-fade-in-delay-1 { animation-delay: 0.1s; }
+.animate-fade-in-delay-2 { animation-delay: 0.2s; }
+.animate-fade-in-delay-3 { animation-delay: 0.3s; }
+.animate-fade-in-delay-4 { animation-delay: 0.4s; }
+.animate-fade-in-delay-5 { animation-delay: 0.5s; }
+.animate-fade-in-delay-6 { animation-delay: 0.6s; }
+.animate-fade-in-delay-7 { animation-delay: 0.7s; }
+
+.animate-slide-up-delay-1 { animation-delay: 0.1s; }
+.animate-slide-up-delay-2 { animation-delay: 0.2s; }
+.animate-slide-up-delay-3 { animation-delay: 0.3s; }
+.animate-slide-up-delay-4 { animation-delay: 0.4s; }
+.animate-slide-up-delay-5 { animation-delay: 0.5s; }
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-float-left,
+  .animate-float-right,
+  .animate-pulse-glow,
+  .animate-pulse-slow {
+    animation: none;
+  }
+  
+  .logo-animate * {
+    animation: none !important;
+  }
+}

@@ -1,12 +1,32 @@
-# Nonprofit Enterprise Management System
+# PILLAR Nonprofit Management System v1.0
 
-Enterprise-grade nonprofit management system built with Vite, React, TypeScript, and Tailwind CSS. Features role-based access control, HIPAA compliance, and comprehensive audit logging.
+Production-ready enterprise nonprofit management system built with React, TypeScript, and Supabase. Features role-based access control, secure authentication, real-time notifications, and comprehensive audit logging.
 
 ## 🚀 Quick Start
 
+### Demo Mode
 ```bash
 # Install dependencies
 npm install
+
+# Run in demo mode (no backend required)
+VITE_DEMO=1 npm run dev
+```
+
+### Production Mode with Supabase
+```bash
+# Install dependencies
+npm install
+
+# Set up Supabase project (see SUPABASE_SETUP.md for detailed guide)
+npm run supabase:setup
+
+# Create .env.local with your Supabase credentials:
+# VITE_SUPABASE_URL=https://your-project.supabase.co
+# VITE_SUPABASE_ANON_KEY=your-anon-key
+
+# Test Supabase connection
+npm run supabase:check
 
 # Start development server
 npm run dev
@@ -23,6 +43,8 @@ npm run build
 - `npm run typecheck` - Run TypeScript type checking
 - `npm run test` - Run test suite
 - `npm run preview` - Preview production build
+- `npm run supabase:check` - Test Supabase connection
+- `npm run supabase:setup` - Show Supabase setup instructions
 
 ## 🏗️ Project Structure
 
@@ -69,10 +91,20 @@ src/
 
 ## 🛡️ Security & Compliance
 
-- **Role-Based Access Control (RBAC)**: Admin, CEO, COO, Case Worker, etc.
-- **HIPAA Compliance**: PHI data handling with audit logging
-- **Enterprise Security**: ESLint security rules and vulnerability checks
-- **Accessibility**: WCAG AA compliance with proper ARIA labels
+- **Role-Based Access Control (RBAC)**: 18 distinct roles with granular permissions
+- **Secure Account Provisioning**: Only SUPER_ADMIN can create accounts
+- **Session-Based Authentication**: JWT-based authentication with Supabase
+- **HIPAA Compliance**: PHI data handling with audit logging and redacted board views
+- **Enterprise Security**: ESLint security rules and CI guard against prohibited imports
+- **Accessibility**: WCAG AA compliance with proper ARIA labels and keyboard navigation
+
+## 🏗️ Architecture
+
+- **Frontend**: React 18 + TypeScript + Tailwind CSS
+- **Backend**: Supabase Edge Functions (Deno + Hono)
+- **Authentication**: Supabase Auth with role-based metadata
+- **Database**: PostgreSQL with Row Level Security (RLS)
+- **CI/CD**: GitHub Actions with comprehensive quality gates
 
 ## 📊 Quality Assurance
 
@@ -88,22 +120,31 @@ src/
 - **Color Standards**: Blue (primary), Gray (secondary), Green (success), Red (error), Amber (HIPAA)
 - **Spacing System**: 4px base unit with consistent spacing throughout
 
-## 🚀 Next Development Phases
+## ✨ v1.0 Features
 
-**Phase 2**: Component Development
-- Authentication system with Supabase
-- Role-based dashboard components
-- Form components with validation
+**Authentication & Authorization**
+- ✅ Login/Register/Password Reset screens
+- ✅ JWT-based session management
+- ✅ Multi-role RBAC with union permissions
+- ✅ Secure account provisioning (SUPER_ADMIN only)
 
-**Phase 3**: Business Logic
-- Client management system
-- Housing services tracking
-- Report generation
+**Core Dashboards**
+- ✅ Program Director dashboard with KPIs and risk management
+- ✅ Board Secretary dashboard with governance tools
+- ✅ Development Director dashboard with fundraising metrics
+- ✅ HR Manager dashboard with staffing overview
 
-**Phase 4**: Advanced Features
-- Real-time notifications
-- Document management
-- Analytics dashboard
+**Notifications & API**
+- ✅ Real-time notification system
+- ✅ Unread count tracking
+- ✅ Mark as read functionality
+- ✅ Production-ready Edge Functions
+
+**Enterprise Features**
+- ✅ Error boundary with optional Sentry reporting
+- ✅ Comprehensive CI/CD pipeline
+- ✅ Demo mode for development/testing
+- ✅ Accessibility compliance (WCAG AA+)
 
 ## 📚 Development Standards
 
@@ -123,6 +164,22 @@ src/
 - User-friendly error messages
 - Proper TypeScript strict mode compliance
 
+## 🔮 Known Limitations & Next Steps
+
+**v1.0 Limitations:**
+- Dashboard data is static/mock - needs backend integration
+- No real-time WebSocket connections yet
+- Limited to basic CRUD operations
+- No document management system
+- No advanced reporting/analytics
+
+**Planned for v1.1:**
+- Live data integration with PostgreSQL
+- WebSocket-based real-time updates
+- Document upload/management
+- Advanced reporting dashboard
+- Mobile app companion
+
 ---
 
-Built with ❤️ for nonprofit organizations serving vulnerable populations.
+**PILLAR v1.0** - Built with ❤️ for nonprofit organizations serving vulnerable populations.

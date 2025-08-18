@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react'
+import Logo from '@/components/common/Logo'
 import NotificationBell from '@/components/common/NotificationBell'
 import RoleSwitcher from '@/components/common/RoleSwitcher'
 import CreateUserButton from '@/components/common/CreateUserButton'
@@ -140,8 +141,16 @@ export function TopBar({
 
   return (
     <header className={topBarClasses} role="banner">
-      {/* Left section - Search */}
+      {/* Left section - Logo and Search */}
       <div className="flex items-center gap-4 flex-1">
+        <Logo 
+          size="sm" 
+          variant="white" 
+          animated={false} 
+          showText={true}
+          onClick={() => console.log('Navigate to dashboard')}
+          className="flex-shrink-0"
+        />
         {showSearch && (
           <form onSubmit={handleSearchSubmit} className="relative max-w-md w-full">
             <div className="relative">
@@ -175,11 +184,22 @@ export function TopBar({
         )}
       </div>
 
-      {/* Right section - Notifications and User Menu */}
+      {/* Right section - Demo Mode, Notifications and User Menu */}
       <div className="flex items-center gap-2">
-        {/* Dev Tools */}
-        <CreateUserButton />
-        <RoleSwitcher />
+        {/* Demo Mode Indicator */}
+        {import.meta.env.VITE_DEMO === '1' && (
+          <div className="px-2 py-1 text-xs font-medium bg-warning-100 text-warning-600 rounded-full border border-warning-600/20">
+            DEMO MODE
+          </div>
+        )}
+        
+        {/* Dev Tools (only in demo mode) */}
+        {import.meta.env.VITE_DEMO === '1' && (
+          <>
+            <CreateUserButton />
+            <RoleSwitcher />
+          </>
+        )}
         
         {/* Notifications */}
         <NotificationBell />

@@ -2,6 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { ProgressRing } from '@/components/ui/ProgressRing'
+import Logo from '@/components/common/Logo'
 
 export function Dashboard_BoardSecretary() {
   return (
@@ -9,9 +10,12 @@ export function Dashboard_BoardSecretary() {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-text">Board Secretary Dashboard</h1>
-            <p className="text-muted mt-1">Governance & Board Meeting Management</p>
+          <div className="flex items-center gap-4">
+            <Logo size="md" variant="default" animated={false} showText={false} />
+            <div>
+              <h1 className="text-3xl font-bold text-text">Board Secretary Dashboard</h1>
+              <p className="text-muted mt-1">Governance & Board Meeting Management</p>
+            </div>
           </div>
           <div className="flex gap-3">
                          <Button variant="secondary">Export Minutes</Button>

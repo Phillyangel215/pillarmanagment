@@ -8,10 +8,12 @@
 import React from 'react'
 
 export interface ProgressRingProps {
-  value: number // 0-100
+  progress?: number // 0-100 (for compatibility)
+  value?: number // 0-100 (alternative prop name)
   max?: number
-  size?: 'sm' | 'md' | 'lg' | 'xl'
+  size?: 'sm' | 'md' | 'lg' | 'xl' | number // Allow numeric sizes
   thickness?: 'thin' | 'medium' | 'thick'
+  strokeWidth?: number // Allow numeric stroke width
   variant?: 'primary' | 'success' | 'warning' | 'error'
   showValue?: boolean
   showLabel?: boolean
@@ -23,10 +25,12 @@ export interface ProgressRingProps {
 }
 
 export function ProgressRing({
+  progress,
   value,
   max = 100,
   size = 'md',
   thickness = 'medium',
+  strokeWidth,
   variant = 'primary',
   showValue = true,
   showLabel = false,
@@ -38,17 +42,34 @@ export function ProgressRing({
   ...props
 }: ProgressRingProps) {
   
+  // Use progress or value prop (progress takes precedence for compatibility)
+  const actualValue = progress !== undefined ? progress : value || 0
+  
   // Ensure value is within bounds
-  const clampedValue = Math.max(0, Math.min(value, max))
+  const clampedValue = Math.max(0, Math.min(actualValue, max))
   const percentage = (clampedValue / max) * 100
 
-  // Size configurations
-  const sizeConfig = {
-    sm: { size: 48, strokeWidth: 4, fontSize: 'text-xs' },
-    md: { size: 80, strokeWidth: 6, fontSize: 'text-sm' },
-    lg: { size: 120, strokeWidth: 8, fontSize: 'text-base' },
-    xl: { size: 160, strokeWidth: 10, fontSize: 'text-lg' }
+  // Size configurations - handle both string and numeric sizes
+  const getSizeConfig = () => {
+    if (typeof size === 'number') {
+      return {
+        size: size,
+        strokeWidth: strokeWidth || Math.max(2, size / 20),
+        fontSize: size < 60 ? 'text-xs' : size < 100 ? 'text-sm' : 'text-base'
+      }
+    }
+    
+    const presetSizes = {
+      sm: { size: 48, strokeWidth: 4, fontSize: 'text-xs' },
+      md: { size: 80, strokeWidth: 6, fontSize: 'text-sm' },
+      lg: { size: 120, strokeWidth: 8, fontSize: 'text-base' },
+      xl: { size: 160, strokeWidth: 10, fontSize: 'text-lg' }
+    }
+    
+    return presetSizes[size as keyof typeof presetSizes] || presetSizes.md
   }
+  
+  const sizeConfig = getSizeConfig()
 
   // Thickness variations
   const thicknessMultiplier = {
@@ -57,9 +78,9 @@ export function ProgressRing({
     thick: 1.4
   }
 
-  const config = sizeConfig[size]
-  const strokeWidth = config.strokeWidth * thicknessMultiplier[thickness]
-  const radius = (config.size - strokeWidth) / 2
+  const config = sizeConfig
+  const finalStrokeWidth = config.strokeWidth * thicknessMultiplier[thickness]
+  const radius = (config.size - finalStrokeWidth) / 2
   const circumference = radius * 2 * Math.PI
   const strokeDashoffset = circumference - (percentage / 100) * circumference
 
@@ -117,7 +138,7 @@ export function ProgressRing({
             cx={config.size / 2}
             cy={config.size / 2}
             r={radius}
-            strokeWidth={strokeWidth}
+            strokeWidth={finalStrokeWidth}
             className={`fill-none ${colors.track}`}
           />
           
@@ -126,7 +147,7 @@ export function ProgressRing({
             cx={config.size / 2}
             cy={config.size / 2}
             r={radius}
-            strokeWidth={strokeWidth}
+            strokeWidth={finalStrokeWidth}
             strokeLinecap="round"
             className={`fill-none ${colors.progress} transition-all duration-500 ease-out`}
             style={{

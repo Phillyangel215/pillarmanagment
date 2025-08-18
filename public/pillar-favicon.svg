@@ -1,0 +1,27 @@
+<svg width="32" height="32" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main Pillar Structure -->
+  <g>
+    <!-- Base -->
+    <rect x="20" y="100" width="88" height="12" rx="6" fill="#1f2937"/>
+    
+    <!-- Columns -->
+    <rect x="30" y="24" width="12" height="76" rx="2" fill="#1f2937"/>
+    <rect x="58" y="24" width="12" height="76" rx="2" fill="#1f2937"/>
+    <rect x="86" y="24" width="12" height="76" rx="2" fill="#1f2937"/>
+    
+    <!-- Top Capital -->
+    <rect x="24" y="16" width="80" height="16" rx="8" fill="#1f2937"/>
+  </g>
+  
+  <!-- Electric Blue Accent Elements -->
+  <g>
+    <!-- Left accent -->
+    <path d="M8 32 L24 16 L24 48 L16 56 L8 48 Z" fill="#3b82f6"/>
+    
+    <!-- Right accent -->
+    <path d="M120 32 L104 16 L104 48 L112 56 L120 48 Z" fill="#3b82f6"/>
+    
+    <!-- Bottom accent triangle -->
+    <path d="M64 116 L56 108 L72 108 Z" fill="#3b82f6"/>
+  </g>
+</svg>

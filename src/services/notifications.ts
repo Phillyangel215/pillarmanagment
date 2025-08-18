@@ -1,48 +1,39 @@
-import { supabase } from '@/lib/supabase'
-
-export type Notification = {
+export type NotificationItem = {
 	id: string
 	title: string
-	body?: string
-	read: boolean
-	created_at: string
+	message: string
+	type: 'info' | 'success' | 'warning' | 'error'
+	isRead: boolean
+	timestamp: string
 }
 
-export async function listNotifications(signal?: AbortSignal): Promise<Notification[]> {
-	// TODO: replace with real table name 'notifications'
-	let query = supabase
-		.from('notifications')
-		.select('id, title, body, read, created_at')
-		.order('created_at', { ascending: false })
+const isDemo = import.meta.env.VITE_DEMO === '1'
+import { apiJson } from '@/lib/http'
 
-	if (signal) {
-		query = query.abortSignal(signal)
+export async function listNotifications(): Promise<NotificationItem[]> {
+	if (isDemo) {
+		const data = await apiJson<{ items: NotificationItem[] }>(`/notifications`)
+		return data.items
 	}
-
-	const { data, error } = await query
-	if (error) throw error
-	return data ?? []
+	const data = await apiJson<{ items: NotificationItem[] }>(`/notifications`)
+	return data.items
 }
 
-export async function unreadCount(signal?: AbortSignal): Promise<number> {
-	let query = supabase
-		.from('notifications')
-		.select('id', { count: 'exact', head: true })
-		.eq('read', false)
-
-	if (signal) {
-		query = query.abortSignal(signal)
+export async function getUnreadCount(): Promise<number> {
+	if (isDemo) {
+		const data = await apiJson<{ count: number }>(`/notifications/unreadCount`)
+		return data.count
 	}
-
-	const { error, count } = await query
-	if (error) throw error
-	return count ?? 0
+	const data = await apiJson<{ count: number }>(`/notifications/unread-count`)
+	return data.count
 }
 
-export async function markRead(id: string): Promise<void> {
-	const { error } = await supabase
-		.from('notifications')
-		.update({ read: true })
-		.eq('id', id)
-	if (error) throw error
+export async function markRead(ids: string[]): Promise<void> {
+	if (isDemo) {
+		await apiJson<{ ok: boolean }>(`/notifications/markRead`, { method: 'POST', body: { ids } })
+		return
+	}
+	for (const id of ids) {
+		await apiJson<{ ok: boolean }>(`/notifications/mark-read/${encodeURIComponent(id)}`, { method: 'POST' })
+	}
 }

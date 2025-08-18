@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { listNotifications, unreadCount, type Notification } from '@/services/notifications'
+import { listNotifications, getUnreadCount, type NotificationItem } from '@/services/notifications'
 import { useInterval } from '@/lib/useInterval'
 
 export function useUnreadCount() {
@@ -9,13 +9,13 @@ export function useUnreadCount() {
 
 	const refetch = useCallback(async () => {
 		const c = new AbortController()
-		try { setCount(await unreadCount(c.signal)) } finally { c.abort() }
+		try { setCount(await getUnreadCount()) } finally { c.abort() }
 	}, [])
 
 	useEffect(() => {
 		const c = new AbortController()
 		setLoading(true)
-		unreadCount(c.signal)
+		getUnreadCount()
 			.then(setCount)
 			.catch(setError)
 			.finally(() => setLoading(false))
@@ -40,14 +40,14 @@ export function useUnreadCount() {
 }
 
 export function useNotifications() {
-	const [items, setItems] = useState<Notification[]>([])
+	const [items, setItems] = useState<NotificationItem[]>([])
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState<unknown>(null)
 
 	useEffect(() => {
 		const c = new AbortController()
 		setLoading(true)
-		listNotifications(c.signal)
+		listNotifications()
 			.then(setItems)
 			.catch(setError)
 			.finally(() => setLoading(false))

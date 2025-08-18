@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { listNotifications, unreadCount, markRead, type Notification } from '@/services/notifications'
+import { listNotifications, getUnreadCount, markRead, type NotificationItem } from '@/services/notifications'
 
 export function useNotifications() {
-  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [notifications, setNotifications] = useState<NotificationItem[]>([])
   const [unread, setUnread] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -16,8 +16,8 @@ export function useNotifications() {
         setError(null)
         
         const [notificationsData, unreadCountData] = await Promise.all([
-          listNotifications(controller.signal),
-          unreadCount(controller.signal)
+          listNotifications(),
+          getUnreadCount()
         ])
         
         setNotifications(notificationsData)
@@ -38,9 +38,9 @@ export function useNotifications() {
 
   const markAsRead = async (id: string) => {
     try {
-      await markRead(id)
+      await markRead([id])
       setNotifications(prev => 
-        prev.map(n => n.id === id ? { ...n, read: true } : n)
+        prev.map(n => n.id === id ? { ...n, isRead: true } : n)
       )
       setUnread(prev => Math.max(0, prev - 1))
     } catch (err) {
