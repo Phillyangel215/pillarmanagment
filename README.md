@@ -39,12 +39,6 @@ npm run preview
 
 Published via GitHub Pages with `VITE_DEMO=1` and `VITE_BASE=/pillarmanagment/`.
 
-### Live Demo
-
-- https://phillyangel215.github.io/pillarmanagment/
-
-Published via GitHub Pages with `VITE_DEMO=1` and `VITE_BASE=/pillarmanagment/`.
-
 ## Project Structure
 
 ```text
