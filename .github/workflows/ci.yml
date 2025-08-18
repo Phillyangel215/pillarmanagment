@@ -38,7 +38,7 @@ jobs:
 
       - name: Guard: Edge functions must not import client code
         run: |
-          if rg -n "from ['\"]@/|from ['\"]/src/|react" supabase/functions -g '!**/*.md' -S | cat; then
+          if grep -RInE "from ['\"]@/|from ['\"]/src/|react" supabase/functions 2>/dev/null | cat; then
             echo "Guard failed: edge functions import client code or react" 1>&2
             exit 1
           fi
