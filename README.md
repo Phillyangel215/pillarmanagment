@@ -140,6 +140,9 @@ Built with ❤️ for nonprofit organizations serving vulnerable populations.
     - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE` (Edge Functions)
     - Optional: JWT roles claim path if customized (functions default to `roles` or `role` in JWT)
 
+- **Frontend Supabase client**:
+  - Use `requireSupabase()` from `src/lib/supabaseClient.ts` where needed in non-demo flows.
+
 - **Local development**:
   - Start Edge Functions:
     - `supabase functions serve`
