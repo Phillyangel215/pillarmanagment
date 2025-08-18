@@ -6,13 +6,22 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './app/App'
 
-const rootElement = document.getElementById('root')
-if (!rootElement) {
-  throw new Error('Failed to find the root element')
+const bootstrap = async () => {
+  if (import.meta.env.VITE_DEMO === '1') {
+    const m = await import('./demo/installDemo')
+    m.installDemo()
+  }
 }
 
-createRoot(rootElement).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+bootstrap().finally(() => {
+  const rootElement = document.getElementById('root')
+  if (!rootElement) {
+    throw new Error('Failed to find the root element')
+  }
+
+  createRoot(rootElement).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+})

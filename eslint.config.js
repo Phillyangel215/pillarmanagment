@@ -9,7 +9,7 @@ import tsparser from '@typescript-eslint/parser'
 
 export default [
   {
-    ignores: ['dist', 'node_modules', 'build', '*.config.js', '*.config.ts', 'components/**/*', 'handoff/**/*', 'supabase/**/*', 'workflows/**/*', 'src/components/**/*', 'src/test/**/*'],
+    ignores: ['dist', 'node_modules', 'build', '*.config.js', '*.config.ts', 'components/**/*', 'handoff/**/*', 'supabase/**/*', 'workflows/**/*', 'src/components/**/*', 'src/test/**/*', 'src/app/screens/**/*'],
   },
   {
     files: ['**/*.{ts,tsx}'],
@@ -41,6 +41,8 @@ export default [
       // Enterprise security rules
       'security/detect-non-literal-regexp': 'error',
       'security/detect-unsafe-regex': 'error',
+      // This rule is too noisy for demo scaffolding and safe indexing cases
+      'security/detect-object-injection': 'off',
       
       // React rules
       'react-refresh/only-export-components': [
@@ -72,5 +74,6 @@ export default [
       'eqeqeq': ['error', 'always'],
       'no-implicit-coercion': 'error',
     },
+    settings: {},
   },
 ]

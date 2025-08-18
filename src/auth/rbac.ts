@@ -66,3 +66,8 @@ export function can(roleOrRoles: Role|Role[], scope: Scope, action: Action) {
   }
   return false
 }
+
+export function normalizeRoles(input: Role | Role[] | undefined | null): Role[] {
+  if (!input) return []
+  return Array.isArray(input) ? input : [input]
+}

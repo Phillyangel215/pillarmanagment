@@ -4,6 +4,9 @@ import { logout } from '@/app/actions/auth';
 import { Auth_Login } from '@/app/screens/Auth_Login';
 import Auth_Register from '@/app/screens/Auth_Register';
 import Auth_Reset from '@/app/screens/Auth_Reset';
+import PresenterBar from '@/components/demo/PresenterBar';
+import DemoDashboardRow from '@/components/demo/DemoDashboardRow';
+import AuditLogViewer from '@/components/demo/AuditLogViewer';
 
 // Import available screens if they exist; otherwise leave null placeholders.
 const pages: Record<string, React.ComponentType | null> = {
@@ -19,7 +22,7 @@ const pages: Record<string, React.ComponentType | null> = {
   Notifications: null,
   Reports: null,
   Settings: null,
-  AuditLogs: null,
+  AuditLogs: AuditLogViewer,
   Auth_Login,
   Auth_Register,
   Auth_Reset,
@@ -32,6 +35,12 @@ export default function DemoGallery() {
   return (
     <div className="min-h-screen bg-[var(--color-surface,#0E0F13)] text-[var(--color-text,#F5F7FA)] p-6">
       <SessionStrip />
+      {import.meta.env.VITE_DEMO === '1' && (
+        <div className="mb-4 space-y-4">
+          <PresenterBar />
+          <DemoDashboardRow />
+        </div>
+      )}
       <div className="flex gap-2 flex-wrap mb-4">
         {keys.map((k) => (
           <button key={k as string} onClick={() => setKey(k)} className="px-3 py-2 rounded-md border border-white/10 hover:bg-white/5">
