@@ -7,13 +7,12 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { supabase, supabaseUrl } from '../src/lib/supabase'
 import { Button } from './ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Alert, AlertDescription } from './ui/alert'
-import { projectId, publicAnonKey } from '../utils/supabase/info'
 
 interface User {
   id: string
@@ -44,12 +43,6 @@ export default function AuthenticationSystem({
     password: ''
   })
 
-  // Create Supabase client
-  const supabase = createClient(
-    `https://${projectId}.supabase.co`,
-    publicAnonKey
-  )
-
   // Check for existing session on mount
   useEffect(() => {
     checkSession()
@@ -65,7 +58,7 @@ export default function AuthenticationSystem({
 
       if (session?.access_token) {
         // Get user profile from server
-        const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-f2563d1b/auth/profile`, {
+        const response = await fetch(`${supabaseUrl}/functions/v1/make-server-f2563d1b/auth/profile`, {
           headers: {
             'Authorization': `Bearer ${session.access_token}`,
             'Content-Type': 'application/json'
@@ -83,7 +76,7 @@ export default function AuthenticationSystem({
     } catch (error) {
       console.error('Session check failed:', error)
     }
-  }, [onAuthChange, projectId, publicAnonKey])
+  }, [onAuthChange])
 
   const handleLogin = useCallback(async () => {
     if (loading) return
@@ -105,7 +98,7 @@ export default function AuthenticationSystem({
 
       if (data.session?.access_token) {
         // Get user profile from server
-        const response = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-f2563d1b/auth/profile`, {
+        const response = await fetch(`${supabaseUrl}/functions/v1/make-server-f2563d1b/auth/profile`, {
           headers: {
             'Authorization': `Bearer ${data.session.access_token}`,
             'Content-Type': 'application/json'
@@ -138,7 +131,7 @@ export default function AuthenticationSystem({
     } finally {
       setLoading(false)
     }
-  }, [loading, loginForm, onAuthChange, projectId, publicAnonKey])
+  }, [loading, loginForm, onAuthChange])
 
   const handleLogout = useCallback(async () => {
     try {
