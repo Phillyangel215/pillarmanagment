@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PresenterBar from '@/components/demo/PresenterBar';
 import DemoDashboardRow from '@/components/demo/DemoDashboardRow';
+import AuditLogViewer from '@/components/demo/AuditLogViewer';
 
 // Import available screens if they exist; otherwise leave null placeholders.
 const pages: Record<string, React.ComponentType | null> = {
@@ -16,7 +17,7 @@ const pages: Record<string, React.ComponentType | null> = {
   Notifications: null,
   Reports: null,
   Settings: null,
-  AuditLogs: null,
+  AuditLogs: AuditLogViewer,
   Auth_Login: null,
   Auth_Register: null,
   Auth_Reset: null,
