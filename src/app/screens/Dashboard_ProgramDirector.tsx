@@ -1,15 +1,9 @@
-/**
- * @fileoverview Program Director Dashboard - Role-specific dashboard
- * @description Dashboard view for Program Directors with programs overview, capacity tracking, and outcomes
- * @accessibility WCAG AA+ compliant with proper heading hierarchy and data tables
- * @version 1.0.0
- */
-
 import { useState } from 'react'
 import { Card, CardHeader, CardTitle, CardContent, StatsCard } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { ProgressRing } from '@/components/ui/ProgressRing'
+import { CsvExport } from '@/components/common/CsvExport'
 
 // Mock data interfaces
 interface Program {
@@ -157,6 +151,9 @@ export function Dashboard_ProgramDirector() {
 
   return (
     <div className="space-y-6">
+      <div className="sticky top-0 bg-black/40 p-2 flex gap-2 items-center">
+        <CsvExport rows={programs} columns={[{ key: 'id', header: 'id' }, { key: 'name', header: 'name' }, { key: 'capacity', header: 'capacity' }, { key: 'enrolled', header: 'enrolled' }, { key: 'waitlist', header: 'waitlist' }, { key: 'completionRate', header: 'completionRate' }, { key: 'status', header: 'status' }]} filename="programs.csv" />
+      </div>
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -377,7 +374,7 @@ export function Dashboard_ProgramDirector() {
         
         <Button variant="secondary" className="h-16 flex items-center justify-center gap-3">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2z" />
           </svg>
           Generate Report
         </Button>

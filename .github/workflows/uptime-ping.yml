@@ -1,0 +1,17 @@
+name: Uptime Ping
+
+on:
+  schedule:
+    - cron: '12 13 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl demo URL
+        run: |
+          URL="https://phillyangel215.github.io/pillarmanagment/"
+          echo "Pinging $URL"
+          curl -fSL "$URL" -o /dev/null
+

@@ -33,6 +33,18 @@ npm run preview
 - Required env vars in production builds: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
 - `src/config/validateEnv.ts` will fail builds if required env vars are missing in production.
 
+### Live Demo
+
+- https://phillyangel215.github.io/pillarmanagment/
+
+Published via GitHub Pages with `VITE_DEMO=1` and `VITE_BASE=/pillarmanagment/`.
+
+### Live Demo
+
+- https://phillyangel215.github.io/pillarmanagment/
+
+Published via GitHub Pages with `VITE_DEMO=1` and `VITE_BASE=/pillarmanagment/`.
+
 ## Project Structure
 
 ```text
