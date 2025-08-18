@@ -10,6 +10,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
+import { login } from '@/app/actions/auth'
 
 export function Auth_Login() {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ export function Auth_Login() {
     password: '',
     rememberMe: false
   })
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({})
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -29,7 +30,7 @@ export function Auth_Login() {
     setErrors({})
     
     // Basic validation
-    const newErrors: Record<string, string> = {}
+    const newErrors: { email?: string; password?: string } = {}
     
     if (!formData.email) {
       newErrors.email = 'Email address is required'
@@ -51,33 +52,24 @@ export function Auth_Login() {
     setIsLoading(true)
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // Handle successful login
-      console.log('Login successful:', formData.email)
-      
-    } catch {
-      setErrors({
-        general: 'Invalid email or password. Please try again.'
-      })
+      const { error } = await login(formData.email, formData.password)
+      if (error) {
+        setErrors({ general: 'Invalid email or password. Please try again.' })
+      }
     } finally {
       setIsLoading(false)
     }
   }
 
   // Handle input changes
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+  const handleInputChange = (field: 'email' | 'password' | 'rememberMe', value: string | boolean) => {
+    if (field === 'email') setFormData(prev => ({ ...prev, email: String(value) }))
+    if (field === 'password') setFormData(prev => ({ ...prev, password: String(value) }))
+    if (field === 'rememberMe') setFormData(prev => ({ ...prev, rememberMe: Boolean(value) }))
     
     // Clear field error when user starts typing
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev }
-        delete newErrors[field]
-        return newErrors
-      })
-    }
+    if (field === 'email' && errors.email) setErrors(prev => ({ ...prev, email: undefined }))
+    if (field === 'password' && errors.password) setErrors(prev => ({ ...prev, password: undefined }))
   }
 
   return (
@@ -206,7 +198,7 @@ export function Auth_Login() {
                 <button
                   type="button"
                   className="text-primary-500 hover:text-primary-600 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500/50 rounded"
-                  onClick={() => console.log('Navigate to forgot password')}
+                  aria-describedby="login-help"
                 >
                   Forgot your password?
                 </button>
@@ -224,7 +216,7 @@ export function Auth_Login() {
           {/* Demo credentials for development */}
           <div className="p-4 bg-surface-2 rounded-lg border border-surface-4">
             <h3 className="text-sm font-medium text-text mb-2">Demo Credentials</h3>
-            <div className="text-xs text-muted space-y-1">
+            <div className="text-xs text-muted space-y-1" aria-live="polite" id="login-help">
               <p><strong>Email:</strong> admin@pillar.demo</p>
               <p><strong>Password:</strong> demo123!</p>
             </div>

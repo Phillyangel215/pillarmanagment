@@ -1,4 +1,4 @@
-# Nonprofit Enterprise Management System
+## Nonprofit Enterprise Management System
 
 Enterprise-grade nonprofit management system built with Vite, React, TypeScript, and Tailwind CSS. Features role-based access control, HIPAA compliance, and comprehensive audit logging.
 
@@ -126,3 +126,51 @@ src/
 ---
 
 Built with ❤️ for nonprofit organizations serving vulnerable populations.
+
+## Environments & Flags
+
+Create a `.env` from `.env.example`:
+
+```
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+VITE_SENTRY_DSN=            # optional; if set, error reporting beacons enabled
+VITE_DEMO=0                 # set 1 for demo mode
+```
+
+Build metadata is injected via `VITE_BUILD_SHA` in CI and defaults to `dev` locally.
+
+## Run modes
+
+- Demo (no network calls):
+
+```
+VITE_DEMO=1 npm run dev
+```
+
+- Local prod path (requires Supabase project and Edge functions running):
+
+```
+VITE_DEMO=0 npm run dev
+```
+
+## Release checklist
+
+- Lint, typecheck, build, and tests are green: `npm run lint && npm run typecheck && npm run build && npm run test`
+- Env vars set in hosting provider
+- CI produces `dist/` artifact on main
+
+## Security notes
+
+- Provisioning requires `SUPER_ADMIN` in JWT `app_metadata.roles`
+- RLS is enforced in Supabase (see your project's policies)
+
+## Meta security headers
+
+Configure at your reverse proxy / hosting:
+
+- Content-Security-Policy, Referrer-Policy, X-Frame-Options, Permissions-Policy
+
+## Changelog
+
+- v1.0.0 – Initial production release.
