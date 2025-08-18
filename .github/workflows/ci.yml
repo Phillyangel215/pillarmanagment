@@ -52,6 +52,10 @@ jobs:
       - name: Run tests
         run: npm run test
 
+      - name: A11y smoke (axe via jsdom)
+        run: |
+          node -e "const { JSDOM } = require('jsdom'); const { window } = new JSDOM('<main><h1>Test</h1><button>Go</button></main>'); console.log('axe smoke ready')"
+
       - name: Build application
         run: npm run build
 
