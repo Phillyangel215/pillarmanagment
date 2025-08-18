@@ -123,19 +123,27 @@ export function installFetchShim() {
 		// Notifications
 		if (url.startsWith('/api/notifications')) {
 			if (method === 'GET') {
-				if (url.endsWith('/unreadCount')) {
+				if (url.endsWith('/unreadCount') || url.endsWith('/unread-count')) {
 					const count = (state.db.notifications as NotificationItem[]).filter((n) => !n.isRead).length
 					return json({ count }, 200, state)
 				}
 				return json({ items: state.db.notifications as NotificationItem[] }, 200, state)
 			}
-			if (method === 'POST' && url.endsWith('/markRead')) {
-				const body = init?.body ? (JSON.parse(String(init.body)) as Partial<{ ids: unknown }>) : { ids: [] as string[] }
-				const maybeIds = body?.ids
-				const ids: string[] = Array.isArray(maybeIds) ? (maybeIds as string[]) : []
-				state.db.notifications = (state.db.notifications as NotificationItem[]).map((n) => (ids.includes(n.id) ? { ...n, isRead: true } : n))
-				bus.emit({ type: 'notifications.changed' })
-				return json({ ok: true }, 200, state)
+			if (method === 'POST') {
+				if (url.endsWith('/markRead')) {
+					const body = init?.body ? (JSON.parse(String(init.body)) as Partial<{ ids: unknown }>) : { ids: [] as string[] }
+					const maybeIds = body?.ids
+					const ids: string[] = Array.isArray(maybeIds) ? (maybeIds as string[]) : []
+					state.db.notifications = (state.db.notifications as NotificationItem[]).map((n) => (ids.includes(n.id) ? { ...n, isRead: true } : n))
+					bus.emit({ type: 'notifications.changed' })
+					return json({ ok: true }, 200, state)
+				}
+				if (/\/api\/notifications\/mark-read\/.+/.test(url)) {
+					const id = url.split('/').pop() as string
+					state.db.notifications = (state.db.notifications as NotificationItem[]).map((n) => (n.id === id ? { ...n, isRead: true } : n))
+					bus.emit({ type: 'notifications.changed' })
+					return json({ ok: true }, 200, state)
+				}
 			}
 		}
 

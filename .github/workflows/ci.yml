@@ -34,18 +34,19 @@ jobs:
       - name: Run TypeScript type checking
         run: npm run typecheck
 
-      - name: Guard serverless functions against web imports
+      - name: Guard: no client imports in Supabase functions
         run: |
-          set -e
-          if [ -d "supabase/functions" ]; then
-            if grep -R -n "from ['\"\"]@/" supabase/functions || grep -R -n "from ['\"\"]react['\"\"]" supabase/functions; then
-              echo "Prohibited imports found in supabase/functions" >&2
-              exit 1
-            else
-              echo "No prohibited imports in supabase/functions"
-            fi
-          else
-            echo "supabase/functions not present; skipping guard"
+          if [ -d supabase/functions ]; then
+            if grep -R "@/" supabase/functions; then
+              echo "Server code must not import @/ (client)."; exit 1; fi
+            if grep -R "from 'react" supabase/functions; then
+              echo "React must not appear in server functions."; exit 1; fi
+          fi
+      - name: Guard: prevent client imports in supabase/functions via double quotes as well
+        run: |
+          if [ -d supabase/functions ]; then
+            if grep -R 'from "react' supabase/functions; then
+              echo "React must not appear in server functions (double-quoted)."; exit 1; fi
           fi
 
       - name: Run tests
@@ -53,6 +54,21 @@ jobs:
 
       - name: Build application
         run: npm run build
+
+      - name: Enforce bundle size budget (gzip <= 350KB)
+        run: |
+          set -e
+          if [ -d dist ]; then
+            SIZE=$(find dist -type f -name "*.js" -print0 | xargs -0 cat | gzip -c | wc -c | tr -d ' ')
+            echo "Gzipped JS bundle size: ${SIZE} bytes"
+            if [ "$SIZE" -gt 350000 ]; then
+              echo "Bundle exceeds 350KB gzip budget" >&2
+              exit 1
+            fi
+          else
+            echo "dist/ not found; build may have failed" >&2
+            exit 1
+          fi
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
