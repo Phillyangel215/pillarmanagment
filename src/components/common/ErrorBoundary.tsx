@@ -6,6 +6,7 @@
  */
 
 import { Component, ErrorInfo, ReactNode } from 'react'
+import { reportError } from '@/lib/sentry'
 
 interface Props {
   children: ReactNode
@@ -43,6 +44,7 @@ class ErrorBoundary extends Component<Props, State> {
 
     // Log error for monitoring (in production, send to error tracking service)
     console.error('ErrorBoundary caught an error:', error, errorInfo)
+    try { reportError(error) } catch {}
   }
 
   render(): ReactNode {

@@ -10,7 +10,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview:prod": "VITE_DEMO=0 vite preview"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.12",
     "@testing-library/jest-dom": "^6.7.0",
+    "@testing-library/react": "^16.0.0",
     "@types/node": "^24.3.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

@@ -1,6 +1,6 @@
 ## Nonprofit Enterprise Management System
 
-Buckle up, professional do-gooders and code connoisseurs. This is a high‑octane, enterprise‑grade management system for nonprofits: React + TypeScript + Vite + Tailwind, strict typing, RBAC, compliance indicators, and an offline demo mode that fakes a backend so well it should probably pay taxes. It’s fast, it’s accessible, and it won’t spill PHI on your shoes.
+Enterprise-grade nonprofit management system built with Vite, React, TypeScript, and Tailwind. Strict typing, RBAC, compliance indicators, and an offline demo mode.
 
 ### TL;DR (Run it)
 
@@ -18,20 +18,14 @@ npm run typecheck && npm run lint && npm run test && npm run build
 npm run preview
 ```
 
-### Demo Mode (no backend, no problem)
+### Demo Mode (no backend)
 
-- Set `VITE_DEMO=1` to enable a fully offline experience with localStorage and a fetch shim.
-- You’ll see a Presenter Bar with demo controls, KPI widgets, and a role switcher.
-- Handy globals in demo mode:
-  - `window.__DEMO_RESET__()` resets all demo data and refreshes the app
-  - `window.__DEMO_LATENCY__(ms, jitter?)` simulates network latency/jitter
-  - `window.__DEMO_SCENARIO__('happy_path'|'empty_org'|'fire_drill'|'board_meeting'|'audit_mode')`
+- Set `VITE_DEMO=1` for an offline experience with seeded data and a Presenter Bar.
 
-### Production Mode (bring your own backend)
+### Production Mode
 
-- Don’t set `VITE_DEMO=1`.
-- Required env vars in production builds: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
-- `src/config/validateEnv.ts` will fail builds if required env vars are missing in production.
+- Do not set `VITE_DEMO=1`.
+- Required env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
 
 ## Project Structure
 
@@ -94,8 +88,7 @@ src/
 ## CI/CD
 
 - Workflow: `.github/workflows/ci.yml`
-- Matrix: Node 18.x and 20.x
-- Steps: checkout → setup‑node → `npm ci` → lint → typecheck → serverless import guard → tests → build → upload `dist` artifact (Node 20)
+- Steps: checkout → setup‑node → `npm ci` → lint → typecheck → serverless import guard → tests → build → upload `dist` artifact
 
 ## Design System (Highlights)
 
@@ -120,9 +113,28 @@ src/
 - PRs welcome. Use the template in `.github/PULL_REQUEST_TEMPLATE.md`.
 - Keep CI green and adhere to `guidelines/Guidelines.md` before requesting review.
 
-## Attribution and Security
+Built with ❤️ for nonprofit organizations.
 
-- Attribution notices: `Attributions.md`
-- Security policy and contact: `SECURITY.md`
+## Environments & Flags
 
-— Written in a deliberately irreverent, candid engineering tone so you actually read it and actually ship it.
+Create a `.env` from `.env.example`:
+
+```
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
+VITE_SENTRY_DSN=            # optional; if set, beacons enabled
+VITE_DEMO=0                 # set 1 for demo mode
+```
+
+`VITE_BUILD_SHA` is injected by CI; defaults to `dev` locally.
+
+## Release checklist
+
+- Lint, typecheck, build, and tests are green
+- Env vars configured
+- CI produces `dist/` artifact
+
+## Security notes
+
+- Provisioning requires `SUPER_ADMIN` in JWT roles
+- RLS enforced in the database

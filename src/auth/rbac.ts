@@ -56,13 +56,15 @@ export const PERMISSIONS: PermissionMap = {
 };
 
 export function can(roleOrRoles: Role|Role[], scope: Scope, action: Action) {
-  const roles = Array.isArray(roleOrRoles) ? roleOrRoles : [roleOrRoles];
-  return roles.some(r => {
-    const allowed = PERMISSIONS[r]?.[scope];
-    if (!allowed) return false;
-    if (allowed.includes('manage')) return true;
-    return allowed.includes(action);
-  });
+  const roles = Array.isArray(roleOrRoles) ? roleOrRoles : [roleOrRoles]
+  for (const role of roles) {
+    const rolePerms = PERMISSIONS[role as Role]
+    if (!rolePerms) continue
+    const allowed = rolePerms[scope as keyof typeof rolePerms]
+    if (!allowed) continue
+    if ((allowed as Action[]).includes('manage') || (allowed as Action[]).includes(action)) return true
+  }
+  return false
 }
 
 export function normalizeRoles(input: Role | Role[] | undefined | null): Role[] {

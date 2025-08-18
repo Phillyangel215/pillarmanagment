@@ -1,22 +1,19 @@
-name: CI Pipeline
+name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
-  test:
-    name: Test & Build
+  build:
     runs-on: ubuntu-latest
-    
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
-
+        node-version: [20.x]
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Node.js ${{ matrix.node-version }}
@@ -28,36 +25,29 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run ESLint
+      - name: Lint
         run: npm run lint
 
-      - name: Run TypeScript type checking
+      - name: Typecheck
         run: npm run typecheck
 
-      - name: Guard serverless functions against web imports
-        run: |
-          set -e
-          if [ -d "supabase/functions" ]; then
-            if grep -R -n "from ['\"\"]@/" supabase/functions || grep -R -n "from ['\"\"]react['\"\"]" supabase/functions; then
-              echo "Prohibited imports found in supabase/functions" >&2
-              exit 1
-            else
-              echo "No prohibited imports in supabase/functions"
-            fi
-          else
-            echo "supabase/functions not present; skipping guard"
-          fi
-
-      - name: Run tests
+      - name: Test
         run: npm run test
 
-      - name: Build application
+      - name: Build
         run: npm run build
+        env:
+          VITE_BUILD_SHA: ${{ github.sha }}
 
-      - name: Upload build artifacts
+      - name: Guard: Edge functions must not import client code
+        run: |
+          if grep -RInE "from ['\"]@/|from ['\"]/src/|react" supabase/functions 2>/dev/null | cat; then
+            echo "Guard failed: edge functions import client code or react" 1>&2
+            exit 1
+          fi
+
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
-        if: matrix.node-version == '20.x'
         with:
           name: dist
           path: dist/
-          retention-days: 7
