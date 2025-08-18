@@ -2,6 +2,11 @@
 
 Enterprise-grade nonprofit management system built with Vite, React, TypeScript, and Tailwind CSS. Features role-based access control, HIPAA compliance, and comprehensive audit logging.
 
+### Live Demo
+**URL:** https://phillyangel215.github.io/pillarmanagment/  
+This Demo build runs with Demo Mode enabled (no external services required).  
+_If you see a blank page on deep links, refresh or use the sidebar — GitHub Pages SPA routing is supported via `404.html` fallback._
+
 ## 🚀 Quick Start
 
 ```bash
@@ -24,13 +29,19 @@ npm run build
 - `npm run test` - Run test suite
 - `npm run preview` - Preview production build
 
+> Pages auto-deploy: Push to `main` and the Demo (VITE_DEMO=1) builds and deploys to GitHub Pages automatically.
+
 ## 🏗️ Project Structure
 
 ```
 src/
 ├── app/              # Main application components
+├── app/screens/      # App screens
 ├── components/       # Reusable components
 │   └── common/       # Common components (ErrorBoundary, etc.)
+├── styles/           # Tailwind and design tokens
+├── lib/              # Utilities
+├── services/         # API/service modules
 ├── test/             # Test configuration
 ├── main.tsx          # Application entry point
 ├── index.css         # Global styles with enterprise design system

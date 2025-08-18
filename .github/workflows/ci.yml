@@ -10,6 +10,8 @@ jobs:
   test:
     name: Test & Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     strategy:
       matrix:
@@ -34,6 +36,15 @@ jobs:
       - name: Run TypeScript type checking
         run: npm run typecheck
 
+      - name: Guard: no client imports in Supabase functions
+        run: |
+          if [ -d supabase/functions ]; then
+            if grep -R "@/" supabase/functions; then
+              echo "Server code must not import @/ (client)."; exit 1; fi
+            if grep -R "from 'react" supabase/functions; then
+              echo "React must not appear in server functions."; exit 1; fi
+          fi
+
       - name: Guard serverless functions against web imports
         run: |
           set -e
@@ -49,7 +60,7 @@ jobs:
           fi
 
       - name: Run tests
-        run: npm run test
+        run: npm run test -- --run
 
       - name: Build application
         run: npm run build

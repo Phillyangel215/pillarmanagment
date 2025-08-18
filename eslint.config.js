@@ -9,7 +9,7 @@ import tsparser from '@typescript-eslint/parser'
 
 export default [
   {
-    ignores: ['dist', 'node_modules', 'build', '*.config.js', '*.config.ts', 'components/**/*', 'handoff/**/*', 'supabase/**/*', 'workflows/**/*', 'src/components/**/*', 'src/test/**/*', 'src/app/screens/**/*'],
+    ignores: ['dist', 'node_modules', 'build', '*.config.js', '*.config.ts', 'components/**/*', 'handoff/**/*', 'supabase/**/*', 'workflows/**/*'],
   },
   {
     files: ['**/*.{ts,tsx}'],

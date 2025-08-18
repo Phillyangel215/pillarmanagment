@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Alert, AlertDescription } from './ui/alert'
-import { projectId, publicAnonKey } from '../utils/supabase/info'
+import { projectId, publicAnonKey } from '../../lib/supabase/info'
 
 interface User {
   id: string
