@@ -33,7 +33,7 @@ export default function Dashboard_BoardSecretary() {
         <CardHeader><CardTitle>Agenda Builder</CardTitle></CardHeader>
         <CardContent>
           <div className="flex gap-2 mb-2">
-            <Input value={newMotion} onChange={e => setNewMotion(e.target.value)} placeholder="Add agenda item or motion" />
+            <Input id="motion-input" label="New item" value={newMotion} onChange={setNewMotion} placeholder="Add agenda item or motion" />
             <Button onClick={onAddMotion}>Add</Button>
           </div>
           <ul className="space-y-1">

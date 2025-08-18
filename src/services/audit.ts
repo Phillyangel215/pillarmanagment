@@ -42,20 +42,20 @@ export function listEvents(filters?: Partial<Pick<AuditEvent, 'scope' | 'user'>>
   let out = db.events.slice()
   if (filters?.scope) out = out.filter(e => e.scope === filters.scope)
   if (filters?.user) out = out.filter(e => e.user === filters.user)
-  if (filters?.since) out = out.filter(e => e.ts >= filters.since!)
+  if (filters?.since) out = out.filter(e => e.ts >= (filters.since as string))
   return out
 }
 
 export function exportCSV(rows: AuditEvent[]): string {
   const header = ['ts', 'user', 'scope', 'action', 'details', 'prev_hash', 'hash']
   const toCell = (v: unknown) => {
-    if (v == null) return ''
+    if (v === null || v === undefined) return ''
     if (typeof v === 'object') return JSON.stringify(v)
     return String(v)
   }
   const lines = [header.join(',')]
   for (const r of rows) {
-    lines.push(header.map(k => toCell((r as any)[k])).join(','))
+    lines.push(header.map(k => toCell((r as unknown as Record<string, unknown>)[k])).join(','))
   }
   return lines.join('\n')
 }

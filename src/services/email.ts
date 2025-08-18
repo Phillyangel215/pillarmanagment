@@ -2,7 +2,7 @@ type SendArgs = { to: string; subject: string; html: string }
 
 export async function sendEmail({ to, subject, html }: SendArgs) {
   if (import.meta.env.VITE_DEMO === '1') {
-    console.log('[DEMO EMAIL]', { to, subject })
+    console.info('[DEMO EMAIL]', { to, subject })
     return { ok: true }
   }
   const useFn = Boolean(import.meta.env.VITE_USE_EMAIL_FN)

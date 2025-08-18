@@ -2,11 +2,11 @@ import React from 'react'
 
 type Column<Row> = { key: keyof Row; header: string }
 
-export function CsvExport<Row extends Record<string, unknown>>({ rows, columns, filename = 'export.csv' }: { rows: Row[]; columns: Column<Row>[]; filename?: string }) {
+export function CsvExport<Row>({ rows, columns, filename = 'export.csv' }: { rows: Row[]; columns: Column<Row>[]; filename?: string }) {
   const onClick = () => {
     const header = columns.map(c => c.header).join(',')
     const body = rows.map(r => columns.map(c => {
-      const v = r[c.key]
+      const v = (r as any)[c.key as any]
       if (v == null) return ''
       if (typeof v === 'object') return JSON.stringify(v)
       const s = String(v)

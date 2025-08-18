@@ -23,9 +23,9 @@ export default function AuditLogViewer() {
   return (
     <div className="space-y-3">
       <div className="flex gap-2 items-end sticky top-0 bg-[var(--color-surface,#0E0F13)] p-2 border-b border-white/10">
-        <Input value={scope} onChange={e => setScope(e.target.value)} placeholder="Scope" />
-        <Input value={user} onChange={e => setUser(e.target.value)} placeholder="User" />
-        <Input type="datetime-local" value={since} onChange={e => setSince(e.target.value)} placeholder="Since" />
+        <Input id="audit-scope" label="Scope" value={scope} onChange={setScope} placeholder="Scope" />
+        <Input id="audit-user" label="User" value={user} onChange={setUser} placeholder="User" />
+        <Input id="audit-since" label="Since" type="text" value={since} onChange={setSince} placeholder="YYYY-MM-DD or ISO" />
         <Button onClick={onExport}>Export CSV</Button>
       </div>
       <div className="overflow-auto">

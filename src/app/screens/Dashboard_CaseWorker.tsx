@@ -15,7 +15,7 @@ export default function Dashboard_CaseWorker() {
   return (
     <div className="space-y-4">
       <div className="flex items-end gap-2 sticky top-0 bg-black/40 p-2">
-        <Input value={q} onChange={e => setQ(e.target.value)} placeholder="Filter..." />
+        <Input id="case-filter" label="Filter" value={q} onChange={setQ} placeholder="Search..." />
         <CsvExport rows={filtered} columns={[
           { key: 'client', header: 'client' },
           { key: 'task', header: 'task' },

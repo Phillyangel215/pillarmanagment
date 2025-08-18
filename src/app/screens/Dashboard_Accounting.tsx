@@ -15,7 +15,7 @@ export default function Dashboard_Accounting() {
   return (
     <div className="space-y-4">
       <div className="flex items-end gap-2 sticky top-0 bg-black/40 p-2">
-        <Input value={q} onChange={e => setQ(e.target.value)} placeholder="Filter..." />
+        <Input id="acct-filter" label="Filter" value={q} onChange={setQ} placeholder="Search..." />
         <CsvExport rows={filtered} columns={[
           { key: 'program', header: 'program' },
           { key: 'grant', header: 'grant' },

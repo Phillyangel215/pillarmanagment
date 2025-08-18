@@ -7,7 +7,7 @@ import { Dashboard_ProgramDirector, Dashboard_BoardSecretary, Dashboard_Contract
 const pages: Record<string, React.ComponentType | null> = {
   Dashboard_ProgramDirector: Dashboard_ProgramDirector,
   Dashboard_DevelopmentDirector: null,
-  Dashboard_HRManager: null,
+  // Dashboard_HRManager placeholder removed (defined below)
   Dashboard_BoardSecretary: Dashboard_BoardSecretary,
   Intake: null,
   CaseManagement: null,
