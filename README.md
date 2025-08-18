@@ -148,6 +148,9 @@ Built with ❤️ for nonprofit organizations serving vulnerable populations.
     - `supabase functions serve`
   - Start Vite dev server:
     - `npm run dev`
+  - Secrets management:
+    - Put client vars in `.env.local` (gitignored): `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
+    - Put server vars (if needed for deployed functions) in your Supabase project/CLI secrets; never commit service role keys.
 
 - **Unified API (via Vite proxy)**:
   - `/api/status`
