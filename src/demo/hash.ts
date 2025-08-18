@@ -1,11 +1,11 @@
-export function canonical(o: any): string {
+export function canonical(o: unknown): string {
   const seen = new WeakSet()
-  const clean = (x: any): any => {
+  const clean = (x: unknown): unknown => {
     if (x && typeof x === 'object') {
       if (seen.has(x)) return null
       seen.add(x)
-      if (Array.isArray(x)) return x.map(clean)
-      const out: any = {}
+      if (Array.isArray(x)) return (x as unknown[]).map(clean)
+      const out: Record<string, unknown> = {}
       Object.keys(x)
         .sort()
         .forEach((k) => {

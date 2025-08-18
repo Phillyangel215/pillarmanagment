@@ -7,14 +7,18 @@ function load(): AuditDB {
   try {
     const raw = localStorage.getItem(KEY)
     if (raw) return JSON.parse(raw) as AuditDB
-  } catch {}
+  } catch {
+    // ignore storage/parse errors
+  }
   return { prev: 'GENESIS', events: [] }
 }
 
 function persist(db: AuditDB) {
   try {
     localStorage.setItem(KEY, JSON.stringify(db))
-  } catch {}
+  } catch {
+    // ignore storage errors
+  }
 }
 
 let db: AuditDB = load()
