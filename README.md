@@ -123,6 +123,10 @@ src/
 - User-friendly error messages
 - Proper TypeScript strict mode compliance
 
+## 📌 Status & Launch
+- Current status: see `guidelines/STATUS.md`
+- MVP launch checklist issue: see the repository issues (e.g., "MVP launch checklist")
+
 ---
 
 Built with ❤️ for nonprofit organizations serving vulnerable populations.
