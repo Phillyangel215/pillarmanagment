@@ -127,6 +127,13 @@ src/
 - Current status: see `guidelines/STATUS.md`
 - MVP launch checklist issue: see the repository issues (e.g., "MVP launch checklist")
 
+## 🌐 Deployment
+- See `DEPLOYMENT.md` for platform-specific steps (Vercel, Netlify, Cloudflare, Nginx) and custom domain linking
+- Use `.env.example` to create your `.env` with `VITE_DEMO=1` for a fully offline demo
+
+## 🔒 Security
+- See `SECURITY.md` for disclosure process and secure development practices
+
 ---
 
 Built with ❤️ for nonprofit organizations serving vulnerable populations.

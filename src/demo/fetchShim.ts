@@ -12,7 +12,27 @@ type NotificationItem = {
 	timestamp: string
 }
 
-type InternalState = DemoState & { db: any }
+// Define stricter types for our in-memory demo DB
+type TaskItem = { id: string; title: string; done: boolean }
+type ScenarioShape = {
+	notifications?: Array<{
+		id?: string
+		title?: string
+		body?: string
+		message?: string
+		type?: NotificationItem['type']
+		read?: boolean
+		isRead?: boolean
+		created_at?: string
+		timestamp?: string
+	}>
+	tasks?: TaskItem[]
+	fundraising?: { raised?: number; donors?: number; avgGift?: number }
+	hr?: { headcount?: number; openings?: number }
+	programs?: { active?: number; outcomesYtd?: number }
+	governance?: { meetingsThisQuarter?: number; minutesPending?: number }
+}
+type InternalState = DemoState & { db: { scenario?: ScenarioShape; notifications?: NotificationItem[]; tasks?: TaskItem[] } }
 
 function jitter(ms: number, j: number) {
 	return ms + Math.floor(Math.random() * j - j / 2)
@@ -28,16 +48,16 @@ function maybeFault(state: InternalState, url: string) {
 }
 
 function json(data: unknown, status = 200, state?: InternalState) {
-	if (state) saveDB(state as any)
+	if (state) saveDB(state)
 	return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json' } })
 }
 
-function scenarioToNotifications(sc: any): NotificationItem[] {
-	const items: NotificationItem[] = (sc.notifications || []).map((n: any, idx: number) => ({
+function scenarioToNotifications(sc: ScenarioShape): NotificationItem[] {
+	const items: NotificationItem[] = (sc.notifications || []).map((n, idx: number) => ({
 		id: n.id || `n-${idx + 1}`,
 		title: n.title || 'Notification',
 		message: n.body || n.message || '',
-		type: (n.type as NotificationItem['type']) || 'info',
+		type: n.type || 'info',
 		isRead: Boolean(n.read ?? n.isRead),
 		timestamp: n.created_at || n.timestamp || new Date().toISOString(),
 	}))
@@ -45,7 +65,7 @@ function scenarioToNotifications(sc: any): NotificationItem[] {
 }
 
 function reseedFromScenario(state: InternalState) {
-	const sc = buildScenario(state.scenario as ScenarioKey, state.clock)
+	const sc = buildScenario(state.scenario as ScenarioKey, state.clock) as ScenarioShape
 	state.db = state.db || {}
 	state.db.scenario = sc
 	state.db.notifications = scenarioToNotifications(sc)
@@ -81,11 +101,11 @@ function governanceSummary(state: InternalState) {
 
 export function installFetchShim() {
 	const original = window.fetch.bind(window)
-	let state: InternalState = loadDB<InternalState>({ ...(defaultState as any), db: buildScenario(defaultState.scenario) } as any)
+	let state: InternalState = loadDB<InternalState>({ ...(defaultState as InternalState), db: buildScenario(defaultState.scenario) as unknown as InternalState['db'] })
 	// On first install in this versioned store, ensure normalized db
 	if (!state.db || !Array.isArray(state.db.notifications)) {
 		reseedFromScenario(state)
-		saveDB(state as any)
+		saveDB(state)
 	}
 
 	async function handleRequest(input: string | URL | { url: string; method?: string }, init?: { method?: string; headers?: Record<string, string>; body?: string }) {
@@ -110,8 +130,9 @@ export function installFetchShim() {
 				return json({ items: state.db.notifications as NotificationItem[] }, 200, state)
 			}
 			if (method === 'POST' && url.endsWith('/markRead')) {
-				const body = init?.body ? JSON.parse(String(init.body)) : { ids: [] as string[] }
-				const ids: string[] = Array.isArray((body as { ids?: unknown }).ids) ? (body as { ids: string[] }).ids : []
+				const body = init?.body ? (JSON.parse(String(init.body)) as Partial<{ ids: unknown }>) : { ids: [] as string[] }
+				const maybeIds = body?.ids
+				const ids: string[] = Array.isArray(maybeIds) ? (maybeIds as string[]) : []
 				state.db.notifications = (state.db.notifications as NotificationItem[]).map((n) => (ids.includes(n.id) ? { ...n, isRead: true } : n))
 				bus.emit({ type: 'notifications.changed' })
 				return json({ ok: true }, 200, state)
@@ -141,16 +162,16 @@ export function installFetchShim() {
 
 		// Demo tasks
 		if (url.endsWith('/api/tasks') && method === 'POST') {
-			const body = init?.body ? JSON.parse(String(init.body)) : {}
+			const body = init?.body ? (JSON.parse(String(init.body)) as Partial<{ title: unknown }>) : {}
 			const id = `t${Date.now()}`
 			state.db.tasks = Array.isArray(state.db.tasks) ? state.db.tasks : []
-			state.db.tasks.push({ id, title: String((body as any)?.title || 'New Task'), done: false })
+			state.db.tasks.push({ id, title: typeof body.title === 'string' ? body.title : 'New Task', done: false })
 			bus.emit({ type: 'tasks.changed' })
 			return json({ ok: true, id }, 201, state)
 		}
 		if (/\/api\/tasks\/complete\/.+/.test(url) && method === 'POST') {
 			const id = url.split('/').pop() as string
-			const task = (state.db.tasks || []).find((t: any) => t.id === id)
+			const task = (state.db.tasks || []).find((t: TaskItem) => t.id === id)
 			if (task) task.done = true
 			bus.emit({ type: 'tasks.changed' })
 			return json({ ok: true }, 200, state)
@@ -162,40 +183,40 @@ export function installFetchShim() {
 	window.fetch = handleRequest as unknown as typeof window.fetch
 
 	// Expose lightweight controller
-	;(window as any).__DEMO__ = {
-		getState: () => JSON.parse(JSON.stringify(state)),
+	;(window as unknown as { __DEMO__?: unknown }).__DEMO__ = {
+		getState: () => JSON.parse(JSON.stringify(state)) as InternalState,
 		setScenario: (key: ScenarioKey, clock?: { nowISO?: string }) => {
 			state.scenario = key
 			if (clock) state.clock = clock
 			reseedFromScenario(state)
-			saveDB(state as any)
+			saveDB(state)
 			bus.emit({ type: 'demo.state.changed' })
 		},
 		setClock: (nowISO?: string) => {
 			state.clock = { nowISO }
 			reseedFromScenario(state)
-			saveDB(state as any)
+			saveDB(state)
 			bus.emit({ type: 'demo.state.changed' })
 		},
 		setNet: (net: Partial<InternalState['net']>) => {
-			state.net = { ...state.net, ...(net as any), faults: net.faults ?? state.net.faults }
-			saveDB(state as any)
+			state.net = { ...state.net, ...(net as Partial<InternalState['net']>), faults: net.faults ?? state.net.faults }
+			saveDB(state)
 		},
 		clearFaults: () => {
 			state.net.faults = {}
-			saveDB(state as any)
+			saveDB(state)
 		},
 		reset: () => {
-			state = { ...(defaultState as any), db: {} }
+			state = { ...(defaultState as InternalState), db: {} as InternalState['db'] }
 			reseedFromScenario(state)
-			saveDB(state as any)
+			saveDB(state)
 			bus.emit({ type: 'demo.state.changed' })
 		},
 	}
 
 	return {
 		reset() {
-			;(window as any).__DEMO__?.reset()
+			;(window as unknown as { __DEMO__?: { reset?: () => void } }).__DEMO__?.reset?.()
 		},
 	}
 }
@@ -203,7 +224,8 @@ export function installFetchShim() {
 export function resetDemoState() {
 	try {
 		localStorage.removeItem('__demo_state__')
-	} catch {}
+	} catch {
+		// ignore storage errors
+	}
 	resetDB()
 }
-
