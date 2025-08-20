@@ -30,10 +30,15 @@ If you want the self-contained demo (no backend), set `VITE_DEMO=1` in your envi
 
 ### Cloudflare Pages
 1. Create a project from Git
-2. Build command: `npm run build`
+2. Build command: `npm ci && npm run build:pages`
 3. Build output directory: `dist`
-4. Set environment variables
-5. Custom domains: Pages project → Custom Domains → Set CNAME to Cloudflare
+4. Node version: `20`
+5. Environment variables (Production):
+   - `VITE_DEMO=1` (for demo mode)
+   - `VITE_BASE=/`
+   - Later, to go production: set `VITE_DEMO=0` and provide `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
+6. SPA routing: ensure `_redirects` with `/*  /index.html  200` exists in `public/` (already included)
+7. Custom domains: Pages project → Custom Domains → Set CNAME to Cloudflare
 
 ### GitHub Pages
 1. Build locally: `npm ci && npm run build`

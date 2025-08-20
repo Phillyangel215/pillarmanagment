@@ -6,11 +6,12 @@
   "description": "Enterprise Nonprofit Management System with HIPAA compliance and role-based access control",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "build:pages": "cross-env VITE_DEMO=1 VITE_BASE=/ vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest",
-    "preview": "vite preview"
+    "preview": "vite preview --strictPort"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",
@@ -22,6 +23,7 @@
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@tailwindcss/postcss": "^4.1.12",
     "@testing-library/jest-dom": "^6.7.0",
     "@types/node": "^24.3.0",
@@ -44,5 +46,8 @@
     "typescript": "~5.6.2",
     "vite": "^6.0.1",
     "vitest": "^2.1.4"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

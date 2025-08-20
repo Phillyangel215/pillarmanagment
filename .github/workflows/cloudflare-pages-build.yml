@@ -1,0 +1,37 @@
+name: Cloudflare Pages build (sanity)
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Guard: no client imports in supabase functions
+        run: |
+          if grep -RInE "from ['\"\']react['\"\']|^import React|from ['\"\']@/" supabase/functions; then
+            echo "Found forbidden imports in supabase/functions" >&2
+            exit 1
+          fi
+
+      - name: Build (Pages-like)
+        env:
+          CI: '1'
+          VITE_DEMO: '1'
+          VITE_BASE: '/'
+        run: npm run build:pages
+
