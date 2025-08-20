@@ -1,3 +1,14 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+*.tsbuildinfo
+.env.local
+.env*
+coverage/
+tmp/
+*.swp
+*.swo
 # Logs
 logs
 *.log
