@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import PresenterBar from '@/components/demo/PresenterBar';
 import DemoDashboardRow from '@/components/demo/DemoDashboardRow';
+import { Dashboard_ProgramDirector, Dashboard_BoardSecretary, Dashboard_Contracts, Dashboard_Grants, Dashboard_Accounting, Dashboard_CaseWorker, Dashboard_Clients, Dashboard_HRManager, Dashboard_Volunteers, Dashboard_Development, Dashboard_Onboarding, Dashboard_Offboarding } from '@/app/screens'
 import AuditLogViewer from '@/components/demo/AuditLogViewer';
 
 // Import available screens if they exist; otherwise leave null placeholders.
 const pages: Record<string, React.ComponentType | null> = {
-  Dashboard_ProgramDirector: null,
+  Dashboard_ProgramDirector: Dashboard_ProgramDirector,
   Dashboard_DevelopmentDirector: null,
-  Dashboard_HRManager: null,
-  Dashboard_BoardSecretary: null,
+  // Dashboard_HRManager placeholder removed (defined below)
+  Dashboard_BoardSecretary: Dashboard_BoardSecretary,
   Intake: null,
   CaseManagement: null,
   HousingPlacement: null,
@@ -18,6 +19,16 @@ const pages: Record<string, React.ComponentType | null> = {
   Reports: null,
   Settings: null,
   AuditLogs: AuditLogViewer,
+  Dashboard_Contracts: Dashboard_Contracts,
+  Dashboard_Grants: Dashboard_Grants,
+  Dashboard_Accounting: Dashboard_Accounting,
+  Dashboard_CaseWorker: Dashboard_CaseWorker,
+  Dashboard_Clients: Dashboard_Clients,
+  Dashboard_HRManager: Dashboard_HRManager,
+  Dashboard_Volunteers: Dashboard_Volunteers,
+  Dashboard_Development: Dashboard_Development,
+  Dashboard_Onboarding: Dashboard_Onboarding,
+  Dashboard_Offboarding: Dashboard_Offboarding,
   Auth_Login: null,
   Auth_Register: null,
   Auth_Reset: null,

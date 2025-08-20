@@ -54,3 +54,36 @@ export async function auditValidate(): Promise<{ ok: boolean; badIndex?: number 
   return { ok: true }
 }
 
+// Legacy compatibility functions for existing code
+export async function appendEvent(event: Omit<AuditEvent, 'hash' | 'prev_hash'>): Promise<AuditEvent> {
+  return auditAppend(event)
+}
+
+export function listEvents(filters?: Partial<Pick<AuditEvent, 'scope' | 'user'>> & { since?: string }): AuditEvent[] {
+  const params = {
+    scope: filters?.scope,
+    q: filters?.user ? `"user":"${filters.user}"` : undefined
+  }
+  // Convert to async call but return synchronously for compatibility
+  return getAll().filter(item => {
+    if (params.scope && item.scope !== params.scope) return false
+    if (filters?.user && item.user !== filters.user) return false
+    if (filters?.since && item.ts < filters.since) return false
+    return true
+  })
+}
+
+export function exportCSV(rows: AuditEvent[]): string {
+  const header = ['id', 'ts', 'user', 'scope', 'action', 'details', 'prev_hash', 'hash']
+  const toCell = (v: unknown) => {
+    if (v === null || v === undefined) return ''
+    if (typeof v === 'object') return JSON.stringify(v)
+    return String(v)
+  }
+  const lines = [header.join(',')]
+  for (const r of rows) {
+    lines.push(header.map(k => toCell((r as unknown as Record<string, unknown>)[k])).join(','))
+  }
+  return lines.join('\n')
+}
+

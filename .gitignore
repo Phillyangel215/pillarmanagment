@@ -88,3 +88,6 @@ temp/
 
 # OS generated files
 Thumbs.db
+
+# TypeScript build info
+*.tsbuildinfo

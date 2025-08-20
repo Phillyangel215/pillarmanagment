@@ -124,6 +124,42 @@ const navigationItems: NavigationItem[] = [
       }
     ]
   },
+  // Governance
+  {
+    id: 'governance',
+    label: 'Governance',
+    href: '/governance',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 21h8m-4-4v4m-7-8h14l-7-8-7 8z" />
+      </svg>
+    ),
+    visibleToRoles: ['SUPER_ADMIN','ADMIN','CEO','COO','BOARD_SECRETARY','BOARD_MEMBER']
+  },
+  // Finance
+  {
+    id: 'accounting',
+    label: 'Accounting',
+    href: '/accounting',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 6h18M3 14h18M3 18h18" />
+      </svg>
+    ),
+    visibleToRoles: ['SUPER_ADMIN','ADMIN','CEO','COO','CFO']
+  },
+  // Grants & Development
+  {
+    id: 'development',
+    label: 'Fundraising',
+    href: '/development',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V5a2 2 0 00-2-2H6a2 2 0 00-2 2v10z" />
+      </svg>
+    ),
+    visibleToRoles: ['SUPER_ADMIN','ADMIN','CEO','COO','DEVELOPMENT_DIRECTOR','GRANTS_MANAGER']
+  },
 
   // Cases/Clinical Notes/Housing - Direct service staff
   {
