@@ -1,134 +1,183 @@
-## Nonprofit Enterprise Management System
+# Supabase CLI
 
-Buckle up, professional do-gooders and code connoisseurs. This is a high‑octane, enterprise‑grade management system for nonprofits: React + TypeScript + Vite + Tailwind, strict typing, RBAC, compliance indicators, and an offline demo mode that fakes a backend so well it should probably pay taxes. It’s fast, it’s accessible, and it won’t spill PHI on your shoes.
+[![Coverage Status](https://coveralls.io/repos/github/supabase/cli/badge.svg?branch=main)](https://coveralls.io/github/supabase/cli?branch=main) [![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/supabase-cli/setup-cli/master?style=flat-square&label=Bitbucket%20Canary)](https://bitbucket.org/supabase-cli/setup-cli/pipelines) [![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/sweatybridge%2Fsetup-cli?label=Gitlab%20Canary)
+](https://gitlab.com/sweatybridge/setup-cli/-/pipelines)
 
-### TL;DR (Run it)
+[Supabase](https://supabase.io) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
+
+This repository contains all the functionality for Supabase CLI.
+
+- [x] Running Supabase locally
+- [x] Managing database migrations
+- [x] Creating and deploying Supabase Functions
+- [x] Generating types directly from your database schema
+- [x] Making authenticated HTTP requests to [Management API](https://supabase.com/docs/reference/api/introduction)
+
+## Getting started
+
+### Install the CLI
+
+Available via [NPM](https://www.npmjs.com) as dev dependency. To install:
 
 ```bash
-# Node 18/20 LTS recommended
-npm ci
-
-# Local dev (with hot reload)
-npm run dev
-
-# Typecheck, lint, test, build
-npm run typecheck && npm run lint && npm run test && npm run build
-
-# Preview the production build
-npm run preview
+npm i supabase --save-dev
 ```
 
-### Demo Mode (no backend, no problem)
+To install the beta release channel:
 
-- Set `VITE_DEMO=1` to enable a fully offline experience with localStorage and a fetch shim.
-- You’ll see a Presenter Bar with demo controls, KPI widgets, and a role switcher.
-- Handy globals in demo mode:
-  - `window.__DEMO_RESET__()` resets all demo data and refreshes the app
-  - `window.__DEMO_LATENCY__(ms, jitter?)` simulates network latency/jitter
-  - `window.__DEMO_SCENARIO__('happy_path'|'empty_org'|'fire_drill'|'board_meeting'|'audit_mode')`
-
-### Production Mode (bring your own backend)
-
-- Don’t set `VITE_DEMO=1`.
-- Required env vars in production builds: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
-- `src/config/validateEnv.ts` will fail builds if required env vars are missing in production.
-
-### Live Demo
-
-- https://phillyangel215.github.io/pillarmanagment/
-
-Published via GitHub Pages with `VITE_DEMO=1` and `VITE_BASE=/pillarmanagment/`.
-
-## Project Structure
-
-```text
-src/
-├─ app/                      # App shell & demo gallery
-│  ├─ App.tsx                # Error boundary + gallery
-│  └─ DemoGallery.tsx        # Screen switcher + PresenterBar + KPIs
-├─ components/
-│  ├─ common/                # ErrorBoundary, RoleSwitcher, CreateUserButton, Logo
-│  ├─ demo/                  # PresenterBar, DemoDashboardRow, StatCard
-│  └─ ui/                    # UI building blocks (project-specific)
-├─ auth/                     # RBAC model & helpers (see auth/rbac.ts)
-├─ config/                   # validateEnv and app config
-├─ demo/                     # fetch shim, seed, scenarios, deterministic PRNG
-├─ services/                 # API calls (demo shim intercepts /api/*)
-├─ styles/                   # Tailwind/global tokens
-├─ assets/                   # Static assets
-├─ main.tsx                  # Bootstrap (installs demo if enabled)
-└─ vite-env.d.ts             # Vite types
+```bash
+npm i supabase@beta --save-dev
 ```
 
-## Tech Stack (and why)
+When installing with yarn 4, you need to disable experimental fetch with the following nodejs config.
 
-- React 18 + TypeScript strict: predictable UI with compile‑time safety
-- Vite 6: blazing dev server and lean production builds
-- Tailwind CSS 4 (beta): design tokens via CSS vars; AA accessibility defaults
-- Vitest + Testing Library: fast unit/integration tests
-- GitHub Actions CI: Node 18/20 matrix, typecheck, lint, test, build, artifacts
+```
+NODE_OPTIONS=--no-experimental-fetch yarn add supabase
+```
 
-## Security, Compliance, Accessibility
+> **Note**
+For Bun versions below v1.0.17, you must add `supabase` as a [trusted dependency](https://bun.sh/guides/install/trusted) before running `bun add -D supabase`.
 
-- RBAC with explicit scopes and actions. See `src/auth/rbac.ts` for roles such as `SUPER_ADMIN`, `CEO`, `PROGRAM_DIRECTOR`, `HR_MANAGER`, `DEVELOPMENT_DIRECTOR`, `CASE_WORKER`, etc.
-- HIPAA‑oriented UI indicators (amber accents) for sensitive areas; see `styles/globals.css` design tokens.
-- Error isolation via `ErrorBoundary` with production‑safe messaging.
-- Strict typing, zero‑`any` policy, ESLint security plugin, and a11y linting.
-- Demo mode never touches real PHI. In production, configure Row Level Security on your backend (e.g., Supabase) and audit logging.
+<details>
+  <summary><b>macOS</b></summary>
 
-## Data and Services
+  Available via [Homebrew](https://brew.sh). To install:
 
-- All service calls are located in `src/services/*` (e.g., `/api/summary/*`, `/api/accounts`).
-- In demo mode, a fetch shim intercepts these routes and serves seeded data with optional latency and scenarios. See `src/demo/*` and `src/demo/fetchShim.ts`.
+  ```sh
+  brew install supabase/tap/supabase
+  ```
 
-## Developer Workflow
+  To install the beta release channel:
+  
+  ```sh
+  brew install supabase/tap/supabase-beta
+  brew link --overwrite supabase-beta
+  ```
+  
+  To upgrade:
 
-- Type safety first: `npm run typecheck`
-- Keep the lights green: `npm run lint` and `npm run test`
-- CI mirrors your local flow and fails fast on violations.
-- Import alias `@` maps to `src/` (configured in `vite.config.ts`).
+  ```sh
+  brew upgrade supabase
+  ```
+</details>
 
-### Scripts
+<details>
+  <summary><b>Windows</b></summary>
 
-- `dev`: start the Vite dev server on port 3000
-- `build`: `tsc -b` then Vite build (sourcemaps on, modern targets)
-- `typecheck`: strict TS checks, no emit
-- `lint`: ESLint with security and a11y rules, max warnings 0
-- `test`: Vitest test runner
-- `preview`: serve the production build locally
+  Available via [Scoop](https://scoop.sh). To install:
 
-## CI/CD
+  ```powershell
+  scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+  scoop install supabase
+  ```
 
-- Workflow: `.github/workflows/ci.yml`
-- Matrix: Node 18.x and 20.x
-- Steps: checkout → setup‑node → `npm ci` → lint → typecheck → serverless import guard → tests → build → upload `dist` artifact (Node 20)
+  To upgrade:
 
-## Design System (Highlights)
+  ```powershell
+  scoop update supabase
+  ```
+</details>
 
-- WCAG AA defaults; typography base 16px; 44px minimum touch targets
-- Color system with explicit tokens for primary, error, success, and HIPAA indicators
-- Spacing system based on a 4px grid; consistent radii and transitions
-- See `styles/globals.css` and `guidelines/Guidelines.md` for the full specification
+<details>
+  <summary><b>Linux</b></summary>
 
-## Deployment
+  Available via [Homebrew](https://brew.sh) and Linux packages.
 
-- Static SPA build output: `dist/`
-- Supported hosts: Vercel, Netlify, Cloudflare Pages, GitHub Pages, Nginx
-- Full instructions in `DEPLOYMENT.md` (including DNS/custom domain notes)
+  #### via Homebrew
 
-## Status and Roadmap
+  To install:
 
-- Current status: `guidelines/STATUS.md`
-- Detailed milestones and acceptance criteria: `MILESTONES.md`
+  ```sh
+  brew install supabase/tap/supabase
+  ```
 
-## Contributing
+  To upgrade:
 
-- PRs welcome. Use the template in `.github/PULL_REQUEST_TEMPLATE.md`.
-- Keep CI green and adhere to `guidelines/Guidelines.md` before requesting review.
+  ```sh
+  brew upgrade supabase
+  ```
 
-## Attribution and Security
+  #### via Linux packages
 
-- Attribution notices: `Attributions.md`
-- Security policy and contact: `SECURITY.md`
+  Linux packages are provided in [Releases](https://github.com/supabase/cli/releases). To install, download the `.apk`/`.deb`/`.rpm`/`.pkg.tar.zst` file depending on your package manager and run the respective commands.
 
-— Written in a deliberately irreverent, candid engineering tone so you actually read it and actually ship it.
+  ```sh
+  sudo apk add --allow-untrusted <...>.apk
+  ```
+
+  ```sh
+  sudo dpkg -i <...>.deb
+  ```
+
+  ```sh
+  sudo rpm -i <...>.rpm
+  ```
+
+  ```sh
+  sudo pacman -U <...>.pkg.tar.zst
+  ```
+</details>
+
+<details>
+  <summary><b>Other Platforms</b></summary>
+
+  You can also install the CLI via [go modules](https://go.dev/ref/mod#go-install) without the help of package managers.
+
+  ```sh
+  go install github.com/supabase/cli@latest
+  ```
+
+  Add a symlink to the binary in `$PATH` for easier access:
+
+  ```sh
+  ln -s "$(go env GOPATH)/bin/cli" /usr/bin/supabase
+  ```
+
+  This works on other non-standard Linux distros.
+</details>
+
+<details>
+  <summary><b>Community Maintained Packages</b></summary>
+
+  Available via [pkgx](https://pkgx.sh/). Package script [here](https://github.com/pkgxdev/pantry/blob/main/projects/supabase.com/cli/package.yml).
+  To install in your working directory:
+
+  ```bash
+  pkgx install supabase
+  ```
+
+  Available via [Nixpkgs](https://nixos.org/). Package script [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/supabase-cli/default.nix).
+</details>
+
+### Run the CLI
+
+```bash
+supabase bootstrap
+```
+
+Or using npx:
+
+```bash
+npx supabase bootstrap
+```
+
+The bootstrap command will guide you through the process of setting up a Supabase project using one of the [starter](https://github.com/supabase-community/supabase-samples/blob/main/samples.json) templates.
+
+## Docs
+
+Command & config reference can be found [here](https://supabase.com/docs/reference/cli/about).
+
+## Breaking changes
+
+We follow semantic versioning for changes that directly impact CLI commands, flags, and configurations.
+
+However, due to dependencies on other service images, we cannot guarantee that schema migrations, seed.sql, and generated types will always work for the same CLI major version. If you need such guarantees, we encourage you to pin a specific version of CLI in package.json.
+
+## Developing
+
+To run from source:
+
+```sh
+# Go >= 1.22
+go run . help
+```

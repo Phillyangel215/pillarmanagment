@@ -2,6 +2,7 @@ import React from 'react'
 import { can, Role } from '@/auth/rbac'
 import { getDevRoles } from './RoleSwitcher'
 import { createAccount } from '@/services/accounts'
+import { auditAppend } from '@/services/audit'
 
 export default function CreateUserButton() {
   const roles: Role[] = getDevRoles()
@@ -10,7 +11,16 @@ export default function CreateUserButton() {
 
   const onClick = async () => {
     try {
-      await createAccount({ email: 'demo@example.org' })
+      const email = 'demo@example.org'
+      const res = await createAccount({ email })
+      try {
+        await auditAppend({
+          scope: 'accounts',
+          action: 'user.provisioned',
+          target: { type: 'user', id: res.id, label: email },
+          actor: { email: 'demo-admin@example.org', roles: roles as string[] },
+        })
+      } catch {}
       alert('User created (demo)')
     } catch (e) {
       alert(String(e))

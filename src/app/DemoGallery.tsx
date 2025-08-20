@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PresenterBar from '@/components/demo/PresenterBar';
 import DemoDashboardRow from '@/components/demo/DemoDashboardRow';
 import { Dashboard_ProgramDirector, Dashboard_BoardSecretary, Dashboard_Contracts, Dashboard_Grants, Dashboard_Accounting, Dashboard_CaseWorker, Dashboard_Clients, Dashboard_HRManager, Dashboard_Volunteers, Dashboard_Development, Dashboard_Onboarding, Dashboard_Offboarding } from '@/app/screens'
+import AuditLogViewer from '@/components/demo/AuditLogViewer';
 
 // Import available screens if they exist; otherwise leave null placeholders.
 const pages: Record<string, React.ComponentType | null> = {
@@ -17,7 +18,7 @@ const pages: Record<string, React.ComponentType | null> = {
   Notifications: null,
   Reports: null,
   Settings: null,
-  AuditLogs: null,
+  AuditLogs: AuditLogViewer,
   Dashboard_Contracts: Dashboard_Contracts,
   Dashboard_Grants: Dashboard_Grants,
   Dashboard_Accounting: Dashboard_Accounting,

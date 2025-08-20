@@ -301,4 +301,156 @@ app.get('/make-server-f2563d1b/health', (c) => {
   })
 })
 
+// ===================================================================
+// API ENDPOINTS FOR FRONTEND INTEGRATION
+// ===================================================================
+
+// Status endpoint for health checks
+app.get('/api/status', (c) => {
+  return c.json({ 
+    ok: true, 
+    ts: new Date().toISOString(),
+    service: 'nonprofit-management-api',
+    version: '1.0.0'
+  })
+})
+
+// Notifications endpoints
+app.get('/api/notifications', async (c) => {
+  try {
+    const accessToken = c.req.header('Authorization')?.split(' ')[1]
+    if (!accessToken) {
+      return c.json({ error: 'Authorization required' }, 401)
+    }
+
+    const { data: { user }, error } = await supabase.auth.getUser(accessToken)
+    if (error || !user) {
+      return c.json({ error: 'Invalid authorization' }, 401)
+    }
+
+    // Get notifications from KV store
+    const notifications = await kv.getByPrefix(`notification:${user.id}:`) || []
+    
+    return c.json({ 
+      success: true, 
+      notifications: notifications.sort((a, b) => 
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+    })
+
+  } catch (error) {
+    console.error('Notifications fetch error:', error)
+    return c.json({ error: 'Internal server error' }, 500)
+  }
+})
+
+// Get unread notification count
+app.get('/api/notifications/unread-count', async (c) => {
+  try {
+    const accessToken = c.req.header('Authorization')?.split(' ')[1]
+    if (!accessToken) {
+      return c.json({ error: 'Authorization required' }, 401)
+    }
+
+    const { data: { user }, error } = await supabase.auth.getUser(accessToken)
+    if (error || !user) {
+      return c.json({ error: 'Invalid authorization' }, 401)
+    }
+
+    // Get unread notifications count
+    const notifications = await kv.getByPrefix(`notification:${user.id}:`) || []
+    const unreadCount = notifications.filter(n => !n.read).length
+    
+    return c.json({ 
+      success: true, 
+      unreadCount 
+    })
+
+  } catch (error) {
+    console.error('Unread count fetch error:', error)
+    return c.json({ error: 'Internal server error' }, 500)
+  }
+})
+
+// Mark notification as read
+app.post('/api/notifications/mark-read/:id', async (c) => {
+  try {
+    const notificationId = c.req.param('id')
+    const accessToken = c.req.header('Authorization')?.split(' ')[1]
+    
+    if (!accessToken) {
+      return c.json({ error: 'Authorization required' }, 401)
+    }
+
+    const { data: { user }, error } = await supabase.auth.getUser(accessToken)
+    if (error || !user) {
+      return c.json({ error: 'Invalid authorization' }, 401)
+    }
+
+    // Get and update notification
+    const notificationKey = `notification:${user.id}:${notificationId}`
+    const notification = await kv.get(notificationKey)
+    
+    if (!notification) {
+      return c.json({ error: 'Notification not found' }, 404)
+    }
+
+    notification.read = true
+    notification.readAt = new Date().toISOString()
+    await kv.set(notificationKey, notification)
+    
+    return c.json({ 
+      success: true, 
+      message: 'Notification marked as read' 
+    })
+
+  } catch (error) {
+    console.error('Mark read error:', error)
+    return c.json({ error: 'Internal server error' }, 500)
+  }
+})
+
+// Accounts endpoint (provision/list accounts)
+app.get('/api/accounts', async (c) => {
+  try {
+    const accessToken = c.req.header('Authorization')?.split(' ')[1]
+    if (!accessToken) {
+      return c.json({ error: 'Authorization required' }, 401)
+    }
+
+    const { data: { user }, error } = await supabase.auth.getUser(accessToken)
+    if (error || !user) {
+      return c.json({ error: 'Invalid authorization' }, 401)
+    }
+
+    // Check if user has permissions to view accounts
+    const userProfile = await kv.get(`user_profile:${user.id}`)
+    if (!userProfile || !['ADMIN', 'CEO', 'COO'].includes(userProfile.role)) {
+      return c.json({ error: 'Insufficient permissions' }, 403)
+    }
+
+    // Get all user accounts
+    const accounts = await kv.getByPrefix('user_profile:')
+    const accountList = accounts.map(profile => ({
+      id: profile.id,
+      email: profile.email,
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      role: profile.role,
+      status: profile.status,
+      createdAt: profile.createdAt,
+      lastLogin: profile.lastLogin
+    }))
+
+    return c.json({ 
+      success: true, 
+      accounts: accountList 
+    })
+
+  } catch (error) {
+    console.error('Accounts fetch error:', error)
+    return c.json({ error: 'Internal server error' }, 500)
+  }
+})
+
 Deno.serve(app.fetch)
