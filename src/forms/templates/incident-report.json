@@ -1,0 +1,210 @@
+{
+  "id": "incident-report-v1",
+  "slug": "incident-report",
+  "name": "Incident Report",
+  "description": "Report for any incident involving clients or staff",
+  "version": 1,
+  "category": "COMPLIANCE",
+  "multiStep": true,
+  "autosave": true,
+  "allowDrafts": true,
+  "auditLevel": "detailed",
+  "allowedRoles": ["SUPER_ADMIN", "ADMIN", "PROGRAM_DIRECTOR", "SUPERVISOR", "CASE_WORKER", "SOCIAL_WORKER", "HOUSING_SPECIALIST"],
+  "sections": [
+    {
+      "id": "basic",
+      "title": "Incident Details",
+      "description": "When, where, and what happened",
+      "fields": ["incidentDate", "incidentTime", "location", "incidentType", "severity", "description"]
+    },
+    {
+      "id": "people",
+      "title": "People Involved",
+      "description": "Individuals involved in or witnessing the incident",
+      "fields": ["peopleInvolved", "witnesses", "staffPresent", "injuriesReported"]
+    },
+    {
+      "id": "response",
+      "title": "Response & Follow-up",
+      "description": "Actions taken and next steps",
+      "fields": ["immediateActions", "medicalAttention", "notificationsMade", "followUpRequired", "reporterName", "reporterSignature"]
+    }
+  ],
+  "fields": [
+    {
+      "id": "incidentDate",
+      "type": "date",
+      "label": "Date of Incident",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "id": "incidentTime",
+      "type": "text",
+      "label": "Time of Incident",
+      "required": true,
+      "placeholder": "HH:MM AM/PM",
+      "width": "half"
+    },
+    {
+      "id": "location",
+      "type": "text",
+      "label": "Location of Incident",
+      "required": true,
+      "placeholder": "Specific location where incident occurred"
+    },
+    {
+      "id": "incidentType",
+      "type": "select",
+      "label": "Type of Incident",
+      "required": true,
+      "options": [
+        {"value": "injury", "label": "Injury"},
+        {"value": "illness", "label": "Illness"},
+        {"value": "behavioral", "label": "Behavioral Incident"},
+        {"value": "property_damage", "label": "Property Damage"},
+        {"value": "security", "label": "Security Incident"},
+        {"value": "medication_error", "label": "Medication Error"},
+        {"value": "fall", "label": "Fall"},
+        {"value": "other", "label": "Other"}
+      ]
+    },
+    {
+      "id": "severity",
+      "type": "radio",
+      "label": "Severity Level",
+      "required": true,
+      "options": [
+        {"value": "minor", "label": "Minor - No injury or minimal impact"},
+        {"value": "moderate", "label": "Moderate - Some injury or disruption"},
+        {"value": "major", "label": "Major - Significant injury or impact"},
+        {"value": "critical", "label": "Critical - Life-threatening or severe"}
+      ]
+    },
+    {
+      "id": "description",
+      "type": "textarea",
+      "label": "Detailed Description",
+      "required": true,
+      "placeholder": "Provide a detailed, objective description of what happened",
+      "help": "Include only factual information, avoid speculation or opinions",
+      "maxLength": 2000
+    },
+    {
+      "id": "peopleInvolved",
+      "type": "textarea",
+      "label": "People Involved",
+      "required": true,
+      "placeholder": "Names and roles of people directly involved in the incident",
+      "maxLength": 500
+    },
+    {
+      "id": "witnesses",
+      "type": "textarea",
+      "label": "Witnesses",
+      "required": false,
+      "placeholder": "Names and contact information of witnesses",
+      "maxLength": 500
+    },
+    {
+      "id": "staffPresent",
+      "type": "text",
+      "label": "Staff Present",
+      "required": true,
+      "placeholder": "Names of staff members present during incident"
+    },
+    {
+      "id": "injuriesReported",
+      "type": "radio",
+      "label": "Were there any injuries?",
+      "required": true,
+      "options": [
+        {"value": "yes", "label": "Yes"},
+        {"value": "no", "label": "No"},
+        {"value": "unknown", "label": "Unknown"}
+      ]
+    },
+    {
+      "id": "immediateActions",
+      "type": "textarea",
+      "label": "Immediate Actions Taken",
+      "required": true,
+      "placeholder": "Describe what was done immediately following the incident",
+      "maxLength": 1000
+    },
+    {
+      "id": "medicalAttention",
+      "type": "radio",
+      "label": "Was medical attention provided?",
+      "required": true,
+      "options": [
+        {"value": "yes_ems", "label": "Yes - EMS called"},
+        {"value": "yes_first_aid", "label": "Yes - First aid provided"},
+        {"value": "yes_hospital", "label": "Yes - Transported to hospital"},
+        {"value": "no", "label": "No medical attention needed"},
+        {"value": "refused", "label": "Medical attention refused"}
+      ]
+    },
+    {
+      "id": "notificationsMade",
+      "type": "multiselect",
+      "label": "Notifications Made",
+      "required": true,
+      "options": [
+        {"value": "supervisor", "label": "Supervisor"},
+        {"value": "program_director", "label": "Program Director"},
+        {"value": "executive_director", "label": "Executive Director"},
+        {"value": "board_chair", "label": "Board Chair"},
+        {"value": "licensing_agency", "label": "Licensing Agency"},
+        {"value": "law_enforcement", "label": "Law Enforcement"},
+        {"value": "family_emergency_contact", "label": "Family/Emergency Contact"},
+        {"value": "none", "label": "None"}
+      ]
+    },
+    {
+      "id": "followUpRequired",
+      "type": "textarea",
+      "label": "Follow-up Actions Required",
+      "required": false,
+      "placeholder": "Describe any follow-up actions, investigations, or changes needed",
+      "maxLength": 1000
+    },
+    {
+      "id": "reporterName",
+      "type": "text",
+      "label": "Reporter Name",
+      "required": true,
+      "help": "Name of person completing this report"
+    },
+    {
+      "id": "reporterSignature",
+      "type": "signature",
+      "label": "Reporter Signature",
+      "required": true,
+      "help": "Electronic signature of the person completing this report"
+    }
+  ],
+  "escalations": [
+    {
+      "condition": {
+        "field": "severity",
+        "operator": "equals",
+        "value": "critical"
+      },
+      "action": "notify",
+      "target": "PROGRAM_DIRECTOR",
+      "message": "Critical incident reported - immediate attention required"
+    },
+    {
+      "condition": {
+        "field": "severity",
+        "operator": "equals",
+        "value": "major"
+      },
+      "action": "notify",
+      "target": "SUPERVISOR",
+      "message": "Major incident reported - review required"
+    }
+  ]
+}
+

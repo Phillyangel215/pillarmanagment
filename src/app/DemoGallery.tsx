@@ -9,6 +9,10 @@ import { Dashboard_BoardSecretary } from './screens/Dashboard_BoardSecretary';
 import { Intake } from './screens/Intake';
 import { CaseManagement } from './screens/CaseManagement';
 import { Reports } from './screens/Reports';
+import Forms from './screens/Forms';
+import FormFill from './screens/FormFill';
+import FormManage from './screens/FormManage';
+import FormResponseView from './screens/FormResponse';
 
 // Import available screens if they exist; otherwise leave null placeholders.
 const pages: Record<string, React.ComponentType | null> = {
@@ -20,6 +24,10 @@ const pages: Record<string, React.ComponentType | null> = {
 	Intake: Intake,
 	CaseManagement: CaseManagement,
 	Reports: Reports,
+	Forms: () => <Forms userRoles={["PROGRAM_DIRECTOR","HR_MANAGER","CASE_WORKER"]} onNavigate={(path) => console.log('navigate', path)} />,
+	FormFill: () => <FormFill templateSlug="client-intake" onCancel={() => console.log('cancel')} onComplete={(id) => console.log('submitted', id)} />,
+	FormManage: () => <FormManage onNavigate={(path) => console.log('navigate', path)} />,
+	FormResponse: () => <FormResponseView responseId="demo-response-1" onBack={() => console.log('back')} />,
 	HousingPlacement: null,
 	Tasks_Projects: null,
 	Training_Compliance: null,

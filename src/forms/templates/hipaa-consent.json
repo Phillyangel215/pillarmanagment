@@ -1,0 +1,122 @@
+{
+  "id": "hipaa-consent-v1",
+  "slug": "hipaa-consent",
+  "name": "Release of Information / HIPAA Consent",
+  "description": "Authorization for use and disclosure of protected health information",
+  "version": 1,
+  "category": "COMPLIANCE",
+  "multiStep": false,
+  "autosave": true,
+  "allowDrafts": false,
+  "auditLevel": "sensitive",
+  "requiresSignature": true,
+  "allowedRoles": ["SUPER_ADMIN", "ADMIN", "PROGRAM_DIRECTOR", "CASE_WORKER", "SOCIAL_WORKER", "INTAKE_SPECIALIST"],
+  "fields": [
+    {
+      "id": "clientName",
+      "type": "text",
+      "label": "Client Full Name",
+      "required": true,
+      "help": "Full legal name of the individual whose information may be disclosed"
+    },
+    {
+      "id": "dateOfBirth",
+      "type": "date",
+      "label": "Date of Birth",
+      "required": true
+    },
+    {
+      "id": "authorizedParties",
+      "type": "textarea",
+      "label": "Authorized Parties",
+      "required": true,
+      "placeholder": "List the names and organizations authorized to receive information",
+      "help": "Specify who is authorized to receive your protected health information",
+      "maxLength": 500
+    },
+    {
+      "id": "informationTypes",
+      "type": "multiselect",
+      "label": "Types of Information to be Disclosed",
+      "required": true,
+      "options": [
+        {"value": "medical_records", "label": "Medical Records"},
+        {"value": "mental_health", "label": "Mental Health Records"},
+        {"value": "substance_abuse", "label": "Substance Abuse Treatment Records"},
+        {"value": "case_notes", "label": "Case Management Notes"},
+        {"value": "service_records", "label": "Service Utilization Records"},
+        {"value": "housing_records", "label": "Housing Records"},
+        {"value": "benefits_info", "label": "Benefits Information"}
+      ]
+    },
+    {
+      "id": "purposeOfDisclosure",
+      "type": "textarea",
+      "label": "Purpose of Disclosure",
+      "required": true,
+      "placeholder": "Describe the purpose for sharing this information",
+      "help": "Explain why this information needs to be shared",
+      "maxLength": 300
+    },
+    {
+      "id": "expirationDate",
+      "type": "date",
+      "label": "Expiration Date",
+      "required": true,
+      "help": "Date when this authorization expires (cannot exceed 1 year)"
+    },
+    {
+      "id": "rightsAcknowledgment",
+      "type": "checkbox",
+      "label": "I understand that I have the right to revoke this authorization at any time by providing written notice",
+      "required": true
+    },
+    {
+      "id": "treatmentNotConditioned",
+      "type": "checkbox",
+      "label": "I understand that my treatment is not conditioned upon signing this authorization",
+      "required": true
+    },
+    {
+      "id": "redisclosureWarning",
+      "type": "checkbox",
+      "label": "I understand that information disclosed may be subject to redisclosure by the recipient and may no longer be protected by federal privacy rules",
+      "required": true
+    },
+    {
+      "id": "clientSignature",
+      "type": "signature",
+      "label": "Client Signature",
+      "required": true,
+      "help": "Electronic signature of the client or authorized representative"
+    },
+    {
+      "id": "signatureDate",
+      "type": "date",
+      "label": "Date Signed",
+      "required": true,
+      "defaultValue": "today"
+    },
+    {
+      "id": "witnessName",
+      "type": "text",
+      "label": "Witness Name (if applicable)",
+      "required": false,
+      "help": "Name of staff member witnessing the signature"
+    },
+    {
+      "id": "witnessSignature",
+      "type": "signature",
+      "label": "Witness Signature",
+      "required": false,
+      "dependsOn": [
+        {
+          "field": "witnessName",
+          "operator": "not_equals",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}
+

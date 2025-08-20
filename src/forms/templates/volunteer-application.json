@@ -1,0 +1,228 @@
+{
+  "id": "volunteer-application-v1",
+  "slug": "volunteer-application",
+  "name": "Volunteer Application & Waiver",
+  "description": "Complete application for volunteer positions with liability waiver",
+  "version": 1,
+  "category": "HR",
+  "multiStep": true,
+  "autosave": true,
+  "allowDrafts": true,
+  "auditLevel": "basic",
+  "requiresSignature": true,
+  "allowedRoles": ["SUPER_ADMIN", "ADMIN", "HR_MANAGER", "PROGRAM_DIRECTOR", "SUPERVISOR"],
+  "sections": [
+    {
+      "id": "personal",
+      "title": "Personal Information",
+      "description": "Basic contact and demographic information",
+      "fields": ["firstName", "lastName", "phone", "email", "address", "dateOfBirth", "emergencyContact"]
+    },
+    {
+      "id": "availability",
+      "title": "Availability & Interests",
+      "description": "When you can volunteer and areas of interest",
+      "fields": ["availability", "hoursPerWeek", "interests", "skills", "experience", "motivation"]
+    },
+    {
+      "id": "background",
+      "title": "Background & References",
+      "description": "Background information and references",
+      "fields": ["backgroundCheckConsent", "references", "criminalHistory", "previousVolunteering"]
+    },
+    {
+      "id": "waiver",
+      "title": "Waiver & Acknowledgments",
+      "description": "Legal waivers and policy acknowledgments",
+      "fields": ["liabilityWaiver", "codeOfConduct", "confidentiality", "photoRelease", "volunteerSignature"]
+    }
+  ],
+  "fields": [
+    {
+      "id": "firstName",
+      "type": "text",
+      "label": "First Name",
+      "required": true,
+      "maxLength": 50,
+      "width": "half"
+    },
+    {
+      "id": "lastName",
+      "type": "text",
+      "label": "Last Name",
+      "required": true,
+      "maxLength": 50,
+      "width": "half"
+    },
+    {
+      "id": "phone",
+      "type": "phone",
+      "label": "Phone Number",
+      "required": true
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email Address",
+      "required": true
+    },
+    {
+      "id": "address",
+      "type": "address",
+      "label": "Home Address",
+      "required": true
+    },
+    {
+      "id": "dateOfBirth",
+      "type": "date",
+      "label": "Date of Birth",
+      "required": true,
+      "help": "Must be 18 or older to volunteer"
+    },
+    {
+      "id": "emergencyContact",
+      "type": "text",
+      "label": "Emergency Contact",
+      "required": true,
+      "placeholder": "Name and phone number"
+    },
+    {
+      "id": "availability",
+      "type": "multiselect",
+      "label": "When are you available?",
+      "required": true,
+      "options": [
+        {"value": "weekday_morning", "label": "Weekday Mornings"},
+        {"value": "weekday_afternoon", "label": "Weekday Afternoons"},
+        {"value": "weekday_evening", "label": "Weekday Evenings"},
+        {"value": "weekend_morning", "label": "Weekend Mornings"},
+        {"value": "weekend_afternoon", "label": "Weekend Afternoons"},
+        {"value": "weekend_evening", "label": "Weekend Evenings"}
+      ]
+    },
+    {
+      "id": "hoursPerWeek",
+      "type": "select",
+      "label": "Hours per week you can commit",
+      "required": true,
+      "options": [
+        {"value": "1-3", "label": "1-3 hours"},
+        {"value": "4-6", "label": "4-6 hours"},
+        {"value": "7-10", "label": "7-10 hours"},
+        {"value": "11-15", "label": "11-15 hours"},
+        {"value": "16+", "label": "16+ hours"}
+      ]
+    },
+    {
+      "id": "interests",
+      "type": "multiselect",
+      "label": "Areas of Interest",
+      "required": true,
+      "options": [
+        {"value": "direct_service", "label": "Direct Client Services"},
+        {"value": "food_service", "label": "Food Service"},
+        {"value": "administrative", "label": "Administrative Support"},
+        {"value": "fundraising", "label": "Fundraising Events"},
+        {"value": "maintenance", "label": "Facility Maintenance"},
+        {"value": "transportation", "label": "Transportation"},
+        {"value": "childcare", "label": "Childcare"},
+        {"value": "tutoring", "label": "Tutoring/Education"},
+        {"value": "counseling", "label": "Counseling Support"},
+        {"value": "special_events", "label": "Special Events"}
+      ]
+    },
+    {
+      "id": "skills",
+      "type": "textarea",
+      "label": "Special Skills or Qualifications",
+      "required": false,
+      "placeholder": "List any relevant skills, certifications, or experience",
+      "maxLength": 500
+    },
+    {
+      "id": "experience",
+      "type": "textarea",
+      "label": "Previous Volunteer Experience",
+      "required": false,
+      "placeholder": "Describe any previous volunteer work or community service",
+      "maxLength": 500
+    },
+    {
+      "id": "motivation",
+      "type": "textarea",
+      "label": "Why do you want to volunteer with us?",
+      "required": true,
+      "placeholder": "Tell us what motivates you to volunteer",
+      "maxLength": 300
+    },
+    {
+      "id": "backgroundCheckConsent",
+      "type": "checkbox",
+      "label": "I consent to a background check as required for volunteer positions",
+      "required": true,
+      "help": "Background checks are required for all volunteers working directly with clients"
+    },
+    {
+      "id": "references",
+      "type": "textarea",
+      "label": "References",
+      "required": true,
+      "placeholder": "Provide two references with names, phone numbers, and relationship to you",
+      "help": "We may contact these references as part of our volunteer screening process",
+      "maxLength": 500
+    },
+    {
+      "id": "criminalHistory",
+      "type": "radio",
+      "label": "Have you ever been convicted of a crime?",
+      "required": true,
+      "options": [
+        {"value": "no", "label": "No"},
+        {"value": "yes", "label": "Yes"}
+      ],
+      "help": "A criminal history does not automatically disqualify you from volunteering"
+    },
+    {
+      "id": "previousVolunteering",
+      "type": "textarea",
+      "label": "Previous Volunteer Experience with Our Organization",
+      "required": false,
+      "placeholder": "If you have previously volunteered with us, please provide details",
+      "maxLength": 300
+    },
+    {
+      "id": "liabilityWaiver",
+      "type": "checkbox",
+      "label": "I understand and agree to the liability waiver and hold harmless agreement",
+      "required": true,
+      "help": "By checking this box, you acknowledge understanding of the risks associated with volunteer activities"
+    },
+    {
+      "id": "codeOfConduct",
+      "type": "checkbox",
+      "label": "I agree to abide by the organization's volunteer code of conduct",
+      "required": true
+    },
+    {
+      "id": "confidentiality",
+      "type": "checkbox",
+      "label": "I understand the importance of maintaining client confidentiality and agree to protect all sensitive information",
+      "required": true
+    },
+    {
+      "id": "photoRelease",
+      "type": "checkbox",
+      "label": "I consent to photographs being taken during volunteer activities for promotional purposes",
+      "required": false,
+      "help": "This is optional - you can still volunteer if you prefer not to be photographed"
+    },
+    {
+      "id": "volunteerSignature",
+      "type": "signature",
+      "label": "Volunteer Signature",
+      "required": true,
+      "help": "Electronic signature confirming all information is accurate and complete"
+    }
+  ]
+}
+

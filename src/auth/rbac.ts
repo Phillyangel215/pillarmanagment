@@ -58,7 +58,6 @@ export const PERMISSIONS: PermissionMap = {
 export function can(roleOrRoles: Role|Role[], scope: Scope, action: Action) {
   const roles = Array.isArray(roleOrRoles) ? roleOrRoles : [roleOrRoles];
   return roles.some(r => {
-    // eslint-disable-next-line security/detect-object-injection
     const allowed = PERMISSIONS[r]?.[scope];
     if (!allowed) return false;
     if (allowed.includes('manage')) return true;

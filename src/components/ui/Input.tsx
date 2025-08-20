@@ -10,7 +10,7 @@ import React from 'react'
 export interface InputProps {
   label: string
   id: string
-  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'number'
+  type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'number' | 'date'
   placeholder?: string
   value?: string
   defaultValue?: string
@@ -24,6 +24,8 @@ export interface InputProps {
   maxLength?: number
   minLength?: number
   pattern?: string
+  min?: number
+  max?: number
   onChange?: (value: string) => void
   onBlur?: () => void
   onFocus?: () => void
@@ -48,6 +50,8 @@ export function Input({
   maxLength,
   minLength,
   pattern,
+  min,
+  max,
   onChange,
   onBlur,
   onFocus,
@@ -136,6 +140,8 @@ export function Input({
         maxLength={maxLength}
         minLength={minLength}
         pattern={pattern}
+        min={min as any}
+        max={max as any}
         onChange={handleChange}
         onBlur={onBlur}
         onFocus={onFocus}

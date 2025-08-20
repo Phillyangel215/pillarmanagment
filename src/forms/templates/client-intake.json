@@ -1,0 +1,231 @@
+{
+  "id": "client-intake-v1",
+  "slug": "client-intake",
+  "name": "Client Intake & Eligibility Assessment",
+  "description": "Comprehensive intake form for new clients seeking services",
+  "version": 1,
+  "category": "CLIENT",
+  "multiStep": true,
+  "autosave": true,
+  "allowDrafts": true,
+  "auditLevel": "sensitive",
+  "allowedRoles": ["SUPER_ADMIN", "ADMIN", "PROGRAM_DIRECTOR", "INTAKE_SPECIALIST", "CASE_WORKER", "SOCIAL_WORKER"],
+  "sections": [
+    {
+      "id": "personal",
+      "title": "Personal Information",
+      "description": "Basic demographic and contact information",
+      "fields": ["firstName", "lastName", "dateOfBirth", "ssn", "phone", "email", "address", "emergencyContact"]
+    },
+    {
+      "id": "household",
+      "title": "Household & Income",
+      "description": "Household composition and income verification",
+      "fields": ["householdSize", "dependents", "monthlyIncome", "incomeSource", "benefits", "housingStatus"]
+    },
+    {
+      "id": "services",
+      "title": "Services Needed",
+      "description": "Select services you are seeking assistance with",
+      "fields": ["servicesNeeded", "urgency", "previousServices", "referralSource", "consent"]
+    }
+  ],
+  "fields": [
+    {
+      "id": "firstName",
+      "type": "text",
+      "label": "First Name",
+      "required": true,
+      "maxLength": 50,
+      "width": "half"
+    },
+    {
+      "id": "lastName",
+      "type": "text",
+      "label": "Last Name",
+      "required": true,
+      "maxLength": 50,
+      "width": "half"
+    },
+    {
+      "id": "dateOfBirth",
+      "type": "date",
+      "label": "Date of Birth",
+      "required": true,
+      "help": "Used for age verification and program eligibility"
+    },
+    {
+      "id": "ssn",
+      "type": "ssn",
+      "label": "Social Security Number",
+      "required": true,
+      "sensitive": true,
+      "help": "Required for income verification and benefits coordination. This information is encrypted and secure."
+    },
+    {
+      "id": "phone",
+      "type": "phone",
+      "label": "Primary Phone Number",
+      "required": true,
+      "help": "We will use this number to contact you about services and appointments"
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email Address",
+      "required": false,
+      "help": "Optional - for appointment reminders and updates"
+    },
+    {
+      "id": "address",
+      "type": "address",
+      "label": "Current Address",
+      "required": true,
+      "help": "Your current residential address"
+    },
+    {
+      "id": "emergencyContact",
+      "type": "text",
+      "label": "Emergency Contact Name & Phone",
+      "required": true,
+      "placeholder": "Name and phone number",
+      "help": "Person to contact in case of emergency"
+    },
+    {
+      "id": "householdSize",
+      "type": "number",
+      "label": "Household Size",
+      "required": true,
+      "min": 1,
+      "max": 20,
+      "help": "Total number of people living in your household"
+    },
+    {
+      "id": "dependents",
+      "type": "number",
+      "label": "Number of Dependents",
+      "required": true,
+      "min": 0,
+      "max": 15,
+      "help": "Children or other dependents under your care"
+    },
+    {
+      "id": "monthlyIncome",
+      "type": "currency",
+      "label": "Total Monthly Household Income",
+      "required": true,
+      "min": 0,
+      "help": "Include all sources of income for all household members"
+    },
+    {
+      "id": "incomeSource",
+      "type": "multiselect",
+      "label": "Income Sources",
+      "required": true,
+      "options": [
+        {"value": "employment", "label": "Employment"},
+        {"value": "unemployment", "label": "Unemployment Benefits"},
+        {"value": "disability", "label": "Disability Benefits"},
+        {"value": "social_security", "label": "Social Security"},
+        {"value": "snap", "label": "SNAP/Food Stamps"},
+        {"value": "tanf", "label": "TANF"},
+        {"value": "other", "label": "Other"}
+      ]
+    },
+    {
+      "id": "benefits",
+      "type": "multiselect",
+      "label": "Current Benefits",
+      "required": false,
+      "options": [
+        {"value": "medicaid", "label": "Medicaid"},
+        {"value": "medicare", "label": "Medicare"},
+        {"value": "snap", "label": "SNAP"},
+        {"value": "wic", "label": "WIC"},
+        {"value": "housing_voucher", "label": "Housing Voucher"},
+        {"value": "none", "label": "None"}
+      ]
+    },
+    {
+      "id": "housingStatus",
+      "type": "radio",
+      "label": "Current Housing Situation",
+      "required": true,
+      "options": [
+        {"value": "housed", "label": "Stable Housing"},
+        {"value": "temporary", "label": "Temporary Housing"},
+        {"value": "homeless", "label": "Homeless"},
+        {"value": "at_risk", "label": "At Risk of Homelessness"}
+      ]
+    },
+    {
+      "id": "servicesNeeded",
+      "type": "multiselect",
+      "label": "Services Needed",
+      "required": true,
+      "options": [
+        {"value": "emergency_housing", "label": "Emergency Housing"},
+        {"value": "food_assistance", "label": "Food Assistance"},
+        {"value": "job_training", "label": "Job Training"},
+        {"value": "mental_health", "label": "Mental Health Support"},
+        {"value": "substance_abuse", "label": "Substance Abuse Treatment"},
+        {"value": "benefits_enrollment", "label": "Benefits Enrollment"},
+        {"value": "legal_aid", "label": "Legal Aid"},
+        {"value": "transportation", "label": "Transportation"}
+      ]
+    },
+    {
+      "id": "urgency",
+      "type": "radio",
+      "label": "Urgency Level",
+      "required": true,
+      "options": [
+        {"value": "immediate", "label": "Immediate (within 24 hours)"},
+        {"value": "urgent", "label": "Urgent (within 1 week)"},
+        {"value": "standard", "label": "Standard (within 30 days)"}
+      ]
+    },
+    {
+      "id": "previousServices",
+      "type": "textarea",
+      "label": "Previous Services Received",
+      "required": false,
+      "placeholder": "Please describe any previous services you have received from our organization or others",
+      "maxLength": 500
+    },
+    {
+      "id": "referralSource",
+      "type": "select",
+      "label": "How did you hear about us?",
+      "required": true,
+      "options": [
+        {"value": "social_media", "label": "Social Media"},
+        {"value": "website", "label": "Website"},
+        {"value": "referral_agency", "label": "Another Agency"},
+        {"value": "word_of_mouth", "label": "Word of Mouth"},
+        {"value": "community_event", "label": "Community Event"},
+        {"value": "other", "label": "Other"}
+      ]
+    },
+    {
+      "id": "consent",
+      "type": "checkbox",
+      "label": "I consent to sharing my information with partner agencies as needed to coordinate services",
+      "required": true,
+      "help": "This allows us to coordinate with other organizations to provide you with comprehensive support"
+    }
+  ],
+  "escalations": [
+    {
+      "condition": {
+        "field": "urgency",
+        "operator": "equals",
+        "value": "immediate"
+      },
+      "action": "notify",
+      "target": "intake@pillar-initiative.com",
+      "message": "Immediate assistance needed for new client intake"
+    }
+  ]
+}
+
