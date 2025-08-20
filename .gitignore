@@ -74,6 +74,7 @@ build/
 # Temporary folders
 tmp/
 temp/
+.temp/
 
 # Editor directories and files
 .vscode/*
