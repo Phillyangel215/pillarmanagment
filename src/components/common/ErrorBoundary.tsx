@@ -108,7 +108,7 @@ class ErrorBoundary extends Component<Props, State> {
               Reload Application
             </button>
             
-            {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
+            {import.meta.env.DEV && this.state.errorInfo && (
               <details 
                 style={{ 
                   marginTop: 'var(--spacing-6)',

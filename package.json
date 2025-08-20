@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:pages": "CI=1 VITE_DEMO=1 VITE_BASE=/ npm run build && cp dist/index.html dist/404.html",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "typecheck": "tsc -b --noEmit",
     "test": "vitest",
@@ -15,6 +16,10 @@
     "supabase:setup": "echo 'See SUPABASE_SETUP.md for setup instructions'",
     "domain:setup": "node scripts/setup-domain.js setup",
     "domain:check": "node scripts/setup-domain.js check"
+  },
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.55.0",
